@@ -28,10 +28,18 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useUiStore } from "@/router/ui"; 
 import MedRichEditor from "@/components/common/MedRichEditor.vue"
 import MedTextArea from "@/components/common/MedTextArea.vue"
 
+const uiStore = useUiStore();
+
 // Une seule variable réactive pour les deux composants !
 const content = ref('')
+onMounted(() => {
+  setTimeout(() => {
+    uiStore.setDashLoading(false);
+  }, 3000);
+})
 </script>
