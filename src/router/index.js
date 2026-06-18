@@ -30,17 +30,15 @@ router.beforeEach(async (to, from) => {
     return { name: 'login' }
   }
 
-  if (!isAdmin()) {
-    toast.error('Vous ne disposez pas de droits suffisants pour accéder à cette page')
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    return { name: 'login' }
-  }
-
   // 1. On vérifie si l'une des routes de la lignée demande à attendre des données
   const needsData = to.matched.some((record) => record.meta.waitForData)
 
   // 2. On récupère la zone (définie sur le parent ou l'enfant)
   const currentZone = to.matched.find((record) => record.meta.zone)?.meta.zone
+
+  if (!isAdmin() & currentZone === 'admin') {
+    return { name: 'login' }
+  }
 
   if (needsData && currentZone === 'admin') {
     uiStore.setDashLoading(true)
