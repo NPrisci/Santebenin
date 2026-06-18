@@ -1,0 +1,522 @@
+[
+  {
+    "id_dep": 1,
+    "lib_dep": "ALIBORI",
+    "villes": [
+      {
+        "id_ville": 1,
+        "lib_ville": "BANIKOARA CENTRES"
+      },
+      {
+        "id_ville": 2,
+        "lib_ville": "FOUNOUGO"
+      },
+      {
+        "id_ville": 3,
+        "lib_ville": "GOMPAROU"
+      },
+      {
+        "id_ville": 4,
+        "lib_ville": "GOUMORI"
+      },
+      {
+        "id_ville": 5,
+        "lib_ville": "KANDI"
+      },
+      {
+        "id_ville": 6,
+        "lib_ville": "ANGARADEBOU"
+      },
+      {
+        "id_ville": 7,
+        "lib_ville": "MALANVILLE"
+      },
+      {
+        "id_ville": 8,
+        "lib_ville": "GUENE"
+      },
+      {
+        "id_ville": 9,
+        "lib_ville": "GOGOUNOU"
+      },
+      {
+        "id_ville": 10,
+        "lib_ville": "SORI"
+      },
+      {
+        "id_ville": 11,
+        "lib_ville": "KARIMAMA"
+      },
+      {
+        "id_ville": 12,
+        "lib_ville": "SEGBANA"
+      }
+    ]
+  },
+  {
+    "id_dep": 2,
+    "lib_dep": "ATACORA",
+    "villes": [
+      {
+        "id_ville": 13,
+        "lib_ville": "NATITINGOU"
+      },
+      {
+        "id_ville": 14,
+        "lib_ville": "PERMA"
+      },
+      {
+        "id_ville": 15,
+        "lib_ville": "BOUKOUMBE"
+      },
+      {
+        "id_ville": 16,
+        "lib_ville": "MANTA"
+      },
+      {
+        "id_ville": 17,
+        "lib_ville": "TANGUIETA"
+      },
+      {
+        "id_ville": 18,
+        "lib_ville": "MATERI"
+      },
+      {
+        "id_ville": 19,
+        "lib_ville": "DASSARI"
+      },
+      {
+        "id_ville": 20,
+        "lib_ville": "KOUANDE"
+      },
+      {
+        "id_ville": 21,
+        "lib_ville": "BIRNI"
+      },
+      {
+        "id_ville": 22,
+        "lib_ville": "COBLY"
+      },
+      {
+        "id_ville": 23,
+        "lib_ville": "KEROU"
+      },
+      {
+        "id_ville": 24,
+        "lib_ville": "PEHUNCO"
+      }
+    ]
+  },
+  {
+    "id_dep": 3,
+    "lib_dep": "ATLANTIQUE",
+    "villes": [
+      {
+        "id_ville": 25,
+        "lib_ville": "ABOMEY-CALAVI"
+      },
+      {
+        "id_ville": 26,
+        "lib_ville": "GODOMEY"
+      },
+      {
+        "id_ville": 27,
+        "lib_ville": "AKASSATO"
+      },
+      {
+        "id_ville": 28,
+        "lib_ville": "TOGBA"
+      },
+      {
+        "id_ville": 29,
+        "lib_ville": "OUEDO"
+      },
+      {
+        "id_ville": 30,
+        "lib_ville": "HEVIE"
+      },
+      {
+        "id_ville": 31,
+        "lib_ville": "ZINVIE"
+      },
+      {
+        "id_ville": 32,
+        "lib_ville": "OUIDAH"
+      },
+      {
+        "id_ville": 33,
+        "lib_ville": "PAHOU"
+      },
+      {
+        "id_ville": 34,
+        "lib_ville": "ALLADA"
+      },
+      {
+        "id_ville": 35,
+        "lib_ville": "SEKOU"
+      },
+      {
+        "id_ville": 36,
+        "lib_ville": "ZE"
+      },
+      {
+        "id_ville": 37,
+        "lib_ville": "TORI-BOSSITO"
+      },
+      {
+        "id_ville": 38,
+        "lib_ville": "TOFFO"
+      },
+      {
+        "id_ville": 39,
+        "lib_ville": "HOUEGBO"
+      },
+      {
+        "id_ville": 40,
+        "lib_ville": "KPOMASSE"
+      },
+      {
+        "id_ville": 41,
+        "lib_ville": "SO-AVA"
+      },
+      {
+        "id_ville": 42,
+        "lib_ville": "GANVIE"
+      }
+    ]
+  },
+  {
+    "id_dep": 4,
+    "lib_dep": "BORGOU",
+    "villes": [
+      {
+        "id_ville": 43,
+        "lib_ville": "PARAKOU"
+      },
+      {
+        "id_ville": 44,
+        "lib_ville": "BEMBEREKE"
+      },
+      {
+        "id_ville": 45,
+        "lib_ville": "BEROUBOUAY"
+      },
+      {
+        "id_ville": 46,
+        "lib_ville": "TCHAOUROU"
+      },
+      {
+        "id_ville": 47,
+        "lib_ville": "TCHATCHOU"
+      },
+      {
+        "id_ville": 48,
+        "lib_ville": "BETEROU"
+      },
+      {
+        "id_ville": 49,
+        "lib_ville": "NIKKI"
+      },
+      {
+        "id_ville": 50,
+        "lib_ville": "OUENOU"
+      },
+      {
+        "id_ville": 51,
+        "lib_ville": "N'DALI"
+      },
+      {
+        "id_ville": 52,
+        "lib_ville": "BORI"
+      },
+      {
+        "id_ville": 53,
+        "lib_ville": "KALALE"
+      },
+      {
+        "id_ville": 54,
+        "lib_ville": "DERASSI"
+      },
+      {
+        "id_ville": 55,
+        "lib_ville": "PERERE"
+      },
+      {
+        "id_ville": 56,
+        "lib_ville": "SINENDE"
+      }
+    ]
+  },
+  {
+    "id_dep": 5,
+    "lib_dep": "COLLINES",
+    "villes": [
+      {
+        "id_ville": 57,
+        "lib_ville": "DASSA-ZOUME"
+      },
+      {
+        "id_ville": 58,
+        "lib_ville": "GLAZOUE"
+      },
+      {
+        "id_ville": 59,
+        "lib_ville": "SAVALOU"
+      },
+      {
+        "id_ville": 60,
+        "lib_ville": "SAVE"
+      },
+      {
+        "id_ville": 61,
+        "lib_ville": "BANTE"
+      },
+      {
+        "id_ville": 62,
+        "lib_ville": "OUESSE"
+      }
+    ]
+  },
+  {
+    "id_dep": 6,
+    "lib_dep": "COUFFO",
+    "villes": [
+      {
+        "id_ville": 63,
+        "lib_ville": "APLAHOUE"
+      },
+      {
+        "id_ville": 64,
+        "lib_ville": "DOGBO"
+      },
+      {
+        "id_ville": 65,
+        "lib_ville": "DJAKOTOMEY"
+      },
+      {
+        "id_ville": 66,
+        "lib_ville": "KLOUEKANMEY"
+      },
+      {
+        "id_ville": 67,
+        "lib_ville": "LALO"
+      },
+      {
+        "id_ville": 68,
+        "lib_ville": "TOVIKLIN"
+      }
+    ]
+  },
+  {
+    "id_dep": 7,
+    "lib_dep": "DONGA",
+    "villes": [
+      {
+        "id_ville": 69,
+        "lib_ville": "DJOUGOU"
+      },
+      {
+        "id_ville": 70,
+        "lib_ville": "BASSILA"
+      },
+      {
+        "id_ville": 71,
+        "lib_ville": "ALEDJO"
+      },
+      {
+        "id_ville": 72,
+        "lib_ville": "COPARGO"
+      },
+      {
+        "id_ville": 73,
+        "lib_ville": "OUAKE"
+      }
+    ]
+  },
+  {
+    "id_dep": 8,
+    "lib_dep": "LITTORAL",
+    "villes": [
+      {
+        "id_ville": 74,
+        "lib_ville": "COTONOU"
+      },
+      {
+        "id_ville": 75,
+        "lib_ville": "CADJEHOUN"
+      },
+      {
+        "id_ville": 76,
+        "lib_ville": "AKPAKPA"
+      },
+      {
+        "id_ville": 77,
+        "lib_ville": "FIDJROSSE"
+      },
+      {
+        "id_ville": 78,
+        "lib_ville": "GBEGAMEY"
+      },
+      {
+        "id_ville": 79,
+        "lib_ville": "MENONTIN"
+      }
+    ]
+  },
+  {
+    "id_dep": 9,
+    "lib_dep": "MONO",
+    "villes": [
+      {
+        "id_ville": 80,
+        "lib_ville": "LOKOSSA"
+      },
+      {
+        "id_ville": 81,
+        "lib_ville": "COME"
+      },
+      {
+        "id_ville": 82,
+        "lib_ville": "GRAND-POPO"
+      },
+      {
+        "id_ville": 83,
+        "lib_ville": "BOPA"
+      },
+      {
+        "id_ville": 84,
+        "lib_ville": "ATHIEME"
+      },
+      {
+        "id_ville": 85,
+        "lib_ville": "HOUEYOGBE"
+      }
+    ]
+  },
+  {
+    "id_dep": 10,
+    "lib_dep": "OUEME",
+    "villes": [
+      {
+        "id_ville": 86,
+        "lib_ville": "PORTO-NOVO"
+      },
+      {
+        "id_ville": 87,
+        "lib_ville": "OUANDO"
+      },
+      {
+        "id_ville": 88,
+        "lib_ville": "SEME-PODJI"
+      },
+      {
+        "id_ville": 89,
+        "lib_ville": "EKPE"
+      },
+      {
+        "id_ville": 90,
+        "lib_ville": "AGBLANGANDAN"
+      },
+      {
+        "id_ville": 91,
+        "lib_ville": "AKPRO-MISSERETE"
+      },
+      {
+        "id_ville": 92,
+        "lib_ville": "VAKON"
+      },
+      {
+        "id_ville": 93,
+        "lib_ville": "ADJARRA"
+      },
+      {
+        "id_ville": 94,
+        "lib_ville": "AVRANKOU"
+      },
+      {
+        "id_ville": 95,
+        "lib_ville": "DANGBO"
+      },
+      {
+        "id_ville": 96,
+        "lib_ville": "ADJOHOUN"
+      },
+      {
+        "id_ville": 97,
+        "lib_ville": "BONOU"
+      },
+      {
+        "id_ville": 98,
+        "lib_ville": "AGUEGUES"
+      }
+    ]
+  },
+  {
+    "id_dep": 11,
+    "lib_dep": "PLATEAU",
+    "villes": [
+      {
+        "id_ville": 99,
+        "lib_ville": "POBE"
+      },
+      {
+        "id_ville": 100,
+        "lib_ville": "KETOU"
+      },
+      {
+        "id_ville": 101,
+        "lib_ville": "SAKETE"
+      },
+      {
+        "id_ville": 102,
+        "lib_ville": "IFANGNI"
+      },
+      {
+        "id_ville": 103,
+        "lib_ville": "ADJA-OUERE"
+      }
+    ]
+  },
+  {
+    "id_dep": 12,
+    "lib_dep": "ZOU",
+    "villes": [
+      {
+        "id_ville": 104,
+        "lib_ville": "ABOMEY"
+      },
+      {
+        "id_ville": 105,
+        "lib_ville": "BOHICON"
+      },
+      {
+        "id_ville": 106,
+        "lib_ville": "DJIDJA"
+      },
+      {
+        "id_ville": 107,
+        "lib_ville": "ZA-KPOTA"
+      },
+      {
+        "id_ville": 108,
+        "lib_ville": "ZOGBODOMEY"
+      },
+      {
+        "id_ville": 109,
+        "lib_ville": "COVE"
+      },
+      {
+        "id_ville": 110,
+        "lib_ville": "AGBANGNIZOUN"
+      },
+      {
+        "id_ville": 111,
+        "lib_ville": "ZANGNANADO"
+      },
+      {
+        "id_ville": 112,
+        "lib_ville": "OUINHI"
+      }
+    ]
+  }
+]
