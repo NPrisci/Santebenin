@@ -38,7 +38,6 @@ export const api = ofetch.create({
    onResponse({ response }) {
       const data = response._data
       if (data && data.success === false) {
-         showToast.error(data.message || 'Opération échouée')
          throw {
             status: response.status,
             title: 'Échec',
