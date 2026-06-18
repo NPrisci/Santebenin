@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { routes } from './routes'
 import { useUiStore } from './ui'
-import { getAuthToken } from '@/api/clients/auth'
+import { getAuthToken, isAdmin } from '@/api/clients/auth'
 import { useToast } from '@/composables/useToast'
 
 const router = createRouter({
@@ -19,8 +19,6 @@ router.beforeEach(async (to, from) => {
   const uiStore = useUiStore()
 
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
-  console.log(to.matched)
-  console.log(requiresAuth)
 
   if (requiresAuth && !getAuthToken()) {
     toast.error('Vous devez être connecté pour accéder à cette page')
@@ -29,6 +27,12 @@ router.beforeEach(async (to, from) => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
     // 3. On retourne la redirection DIRECTEMENT au routeur
+    return { name: 'login' }
+  }
+
+  if (!isAdmin()) {
+    toast.error('Vous ne disposez pas de droits suffisants pour accéder à cette page')
+    await new Promise((resolve) => setTimeout(resolve, 1000))
     return { name: 'login' }
   }
 

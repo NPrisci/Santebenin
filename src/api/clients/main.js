@@ -5,7 +5,7 @@ import { useServerError } from '@/composables/useServerError'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const CALL_API_TIMEOUT = Number(import.meta.env.VITE_CALL_API_TIMEOUT) || 30000
-const { showToast } = useToast()
+const showToast = useToast()
 const { triggerServerError } = useServerError()
 
 /**
@@ -36,10 +36,9 @@ export const api = ofetch.create({
     * INTERCEPTEUR DE RÉPONSE (Succès)
     */
    onResponse({ response }) {
-      const data = response._data // ofetch stocke automatiquement le JSON parsé dans _data
-
-      // Gestion de ton flag personnalisé success: false
+      const data = response._data
       if (data && data.success === false) {
+         showToast.error(data.message || 'Opération échouée')
          throw {
             status: response.status,
             title: 'Échec',
@@ -53,6 +52,7 @@ export const api = ofetch.create({
     */
    onResponseError({ response }) {
       if (!response) {
+         showToast.error('Impossible de se connecter au serveur.')
          throw {
             status: 0,
             title: 'Erreur réseau',
@@ -64,13 +64,13 @@ export const api = ofetch.create({
       const data = response._data || {}
 
       if (status === 401) {
-         showToast('Vous n\'avez pas les autorisations nécessaires', 'warning')
+         showToast.warning('Vous n\'avez pas les autorisations nécessaires')
          setTimeout(() => {
             router.push({ name: 'login' })
          }, 3500)
       }
       if (status === 403) {
-         showToast('Vous n\'avez pas les autorisations nécessaires', 'warning')
+         showToast.warning('Vous n\'avez pas les autorisations nécessaires')
          setTimeout(() => {
             router.push({ name: '403' })
          }, 3500)

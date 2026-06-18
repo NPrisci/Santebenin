@@ -80,17 +80,31 @@ export const routes = [
     path: '/a',
     name: 'admin-service',
     component: DashLayout,
-    meta: { requiresAuth: true, waitForData: true, zone: 'main' },
+    meta: { requiresAuth: true, zone: 'admin' },
     children: [
       {
         path: 'overview',
         name: 'admin-overview',
         component: () => import('@/pages/services/admin/OverviewPage.vue'),
+        meta: { waitForData: true}
       },
       {
         path: 'annonces/nouvel',
         name: 'admin-annonces-nouvelle',
         component: () => import('@/pages/services/admin/annonces/NouvelAnnonce.vue'),
+        meta: { waitForData: false}
+      },
+      {
+        path: 'annonces',
+        name: 'admin-annonces-list',
+        component: () => import('@/pages/services/admin/annonces/ListAnnonce.vue'),
+        meta: { waitForData: true}
+      },
+      {
+        path: 'annonces/:id',
+        name: 'admin-annonce-details',
+        component: () => import('@/pages/services/admin/annonces/DetailsAnnonce.vue'),
+        meta: { waitForData: false}
       }
     ]
   },

@@ -24,11 +24,16 @@ export const AnnonceApi = {
    },
    // recuperer toutes les annonces
    getAllAnnonces: async () => {
-      return await api.get("/annonces");
+      const response = await api('/annonces/all');
+      if (Array.isArray(response.data)) {
+         const format = CheckApiData.formatAllAnnonce(response.data);
+         return format;
+      }
+      return response.data;
    },
    // recuperer une annonce par son id
    getAnnonceById: async (id) => {
-      return await api.get(`/annonces/${id}`);
+      return await api(`/annonces/${id}`);
    },
 
    saveDraftAnnonce: (data) => {
@@ -91,5 +96,50 @@ const CheckApiData = {
       }
 
       return true;
+   },
+
+   formatAllAnnonce: (data) => {
+      const archivedAnnonces = []
+      const activeAnnonces = []
+
+      data.forEach(annonce => {
+         if (annonce.est_active) {
+            activeAnnonces.push(annonce);
+         }
+         else {
+            archivedAnnonces.push(annonce);
+         }
+      });
+
+      return {
+         archivedAnnonces: archivedAnnonces.map(annonce => {
+            return {
+               id: annonce.id,
+               titre: annonce.titre,
+               description: annonce.description,
+               content: annonce.content,
+               categorie: annonce.categorie,
+               image: annonce.image_couverture_url,
+               video: annonce.video_url,
+               expire: annonce.expire,
+               joursRestants: annonce.jours_restants,
+               createdAt: annonce.created_at
+            };
+         }),
+         activeAnnonces: activeAnnonces.map(annonce => {
+            return {
+               id: annonce.id,
+               titre: annonce.titre,
+               description: annonce.description,
+               content: annonce.content,
+               categorie: annonce.categorie,
+               image: annonce.image_couverture_url,
+               video: annonce.video_url,
+               expire: annonce.expire,
+               joursRestants: annonce.jours_restants,
+               createdAt: annonce.created_at
+            };
+         })
+      }
    }
 }
