@@ -12,11 +12,12 @@ import MedCard from "@/components/common/MedCard.vue";
 import MedButton from "@/components/common/MedButton.vue";
 import MedInput from "@/components/common/MedInput.vue";
 import MedEmptyState from "@/components/common/MedEmptyState.vue";
+import MedSkeleton from "@/components/common/MedSkeleton.vue";
 
 const uiStore = useUiStore();
 const router = useRouter();
 const toast = useToast();
-const confirm = useConfirm();
+const { confirm } = useConfirm();
 
 // --- États réactifs ---
 const isLoading = ref(true);
@@ -31,7 +32,6 @@ const loadAnnonces = async () => {
   isLoading.value = true;
   try {
     const response = await AnnonceApi.getAllAnnonces();
-    // Dispatch des listes selon le format de ton annonces.js
     rawActiveAnnonces.value = response?.activeAnnonces || [];
     rawArchivedAnnonces.value = response?.archivedAnnonces || [];
   } catch (error) {
@@ -50,11 +50,13 @@ onMounted(() => {
 // --- Action d'archivage / suppression ---
 const handleToggleArchive = async (annonceId, isCurrentlyActive) => {
   const actionText = isCurrentlyActive ? "archiver" : "désarchiver";
+  const actionVerb = isCurrentlyActive ? "Archiver" : "Désarchiver";
 
   const request = await confirm({
-    message: `Voulez-vous vraiment ${actionText} cette annonce ?`,
-    header: "Confirmation requise",
-    icon: "pi pi-exclamation-triangle",
+    type: "warning",
+    text: `Voulez-vous vraiment ${actionText} cette annonce ?`,
+    confirmButtonText: actionVerb,
+    showCancelButton: true,
   });
 
   if (!request.isConfirmed) {
@@ -62,10 +64,10 @@ const handleToggleArchive = async (annonceId, isCurrentlyActive) => {
   }
   try {
     if (isCurrentlyActive) {
-      await AnnonceApi.deleteAnnonce(annonceId);
+      await AnnonceApi.archiveAnnonce(annonceId);
       toast.success("Annonce archivée avec succès.");
     }
-    await loadAnnonces(); // Recharger la liste mise à jour
+    await loadAnnonces();
   // eslint-disable-next-line no-unused-vars
   } catch (err) {
     toast.error(`Erreur lors de l'action.`);
@@ -78,12 +80,12 @@ const goToCreate = () => {
 };
 
 const goToDetail = async (id) => {
-   const encryptedId = await encryptService.localEncrypt(id)
-   router.push({
-      name: "admin-annonce-details",
-      params: { id: encryptedId }
-   })
-}
+  const encryptedId = await encryptService.localEncrypt(id);
+  router.push({
+    name: "admin-annonce-details",
+    params: { id: encryptedId },
+  });
+};
 
 // --- Logique des filtres calculés ---
 
@@ -97,10 +99,7 @@ const filteredAnnonces = computed(() => {
   } else if (currentTab.value === "archived") {
     lists = rawArchivedAnnonces.value;
   } else {
-    lists = [
-      ...rawActiveAnnonces.value,
-      ...rawArchivedAnnonces.value,
-    ];
+    lists = [...rawActiveAnnonces.value, ...rawArchivedAnnonces.value];
   }
 
   // 2. Filtrage subsidiaire par recherche textuelle
@@ -198,10 +197,39 @@ const filteredAnnonces = computed(() => {
       </div>
     </div>
 
-    <div v-if="isLoading" class="row g-4">
-      <div class="col-12 text-center py-5">
-        <div class="spinner-border text-primary" role="status"></div>
-        <p class="text-muted mt-2 small">Chargement des données médicales...</p>
+    <!-- ── Squelettes de chargement ─────────────────────────────── -->
+    <div v-if="isLoading" class="row g-4" aria-busy="true" aria-label="Chargement des annonces">
+      <div
+        v-for="n in 4"
+        :key="n"
+        class="col-md-6 col-xl-3"
+      >
+        <div class="card h-100 border shadow-sm overflow-hidden">
+          <!-- Image de couverture -->
+          <MedSkeleton type="rect" height="180px" animation="wave" />
+
+          <div class="card-body p-3 d-flex flex-column gap-3">
+            <!-- Titre -->
+            <MedSkeleton type="text" :lines="1" width="75%" animation="wave" />
+            <!-- Sous-titre / catégorie -->
+            <MedSkeleton type="text" :lines="1" width="45%" animation="wave" />
+
+            <!-- Description (2 lignes) -->
+            <MedSkeleton type="text" :lines="2" animation="wave" />
+
+            <!-- Meta (date + jours restants) -->
+            <div class="d-flex gap-3 mt-auto">
+              <MedSkeleton type="text" :lines="1" width="30%" animation="wave" />
+              <MedSkeleton type="text" :lines="1" width="30%" animation="wave" />
+            </div>
+
+            <!-- Boutons d'action -->
+            <div class="d-flex gap-2 pt-2 border-top">
+              <MedSkeleton type="rect" height="34px" width="100%" animation="wave" />
+              <MedSkeleton type="rect" height="34px" width="44px" animation="wave" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -250,14 +278,16 @@ const filteredAnnonces = computed(() => {
             <span
               class="position-absolute top-3 right-3 badge rounded-pill px-3 py-1-5 text-sm font-semibold shadow-sm"
               :class="[
-                currentTab === 'archived' || !rawActiveAnnonces.find(a => a.id === annonce.id)
+                currentTab === 'archived' ||
+                !rawActiveAnnonces.find((a) => a.id === annonce.id)
                   ? 'bg-danger-light text-danger'
                   : 'bg-success-light text-success',
               ]"
               style="top: 12px; right: 12px"
             >
               {{
-                currentTab === "archived" || !rawActiveAnnonces.find(a => a.id === annonce.id)
+                currentTab === "archived" ||
+                !rawActiveAnnonces.find((a) => a.id === annonce.id)
                   ? "Archivée"
                   : "Active"
               }}
@@ -301,7 +331,8 @@ const filteredAnnonces = computed(() => {
 
               <MedButton
                 :variant="
-                  currentTab === 'archived' || !rawActiveAnnonces.find(a => a.id === annonce.id)
+                  currentTab === 'archived' ||
+                  !rawActiveAnnonces.find((a) => a.id === annonce.id)
                     ? 'success'
                     : 'danger'
                 "
@@ -310,14 +341,14 @@ const filteredAnnonces = computed(() => {
                 @click="
                   handleToggleArchive(
                     annonce.id,
-                    !!rawActiveAnnonces.find(a => a.id === annonce.id)
+                    !!rawActiveAnnonces.find((a) => a.id === annonce.id)
                   )
                 "
               >
                 <i
                   class="pi"
                   :class="[
-                    rawActiveAnnonces.find(a => a.id === annonce.id)
+                    rawActiveAnnonces.find((a) => a.id === annonce.id)
                       ? 'pi-box'
                       : 'pi-refresh',
                   ]"

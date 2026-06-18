@@ -76,7 +76,7 @@ const toggleCollapse = () => {
           <i v-if="icon" :class="[icon, 'text-primary fs-5 med-card-icon']"></i>
           <div class="text-truncate">
             <h5 class="card-title fw-bold text-dark mb-0 fs-6 text-truncate">{{ title }}</h5>
-            <small v-if="subtitle" class="text-muted d-block text-truncate small">{{ subtitle }}</small>
+            <small v-if="subtitle" class="text-muted d-block text-truncate small text-secondary">{{ subtitle }}</small>
           </div>
         </div>
       </slot>

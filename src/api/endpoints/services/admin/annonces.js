@@ -22,18 +22,22 @@ export const AnnonceApi = {
          method: 'DELETE'
       });
    },
+   //archiver une annonce
+   archiveAnnonce: async (id) => {
+      return await api(`/annonces/${id}/archive`, {
+         method: 'PATCH'
+      });
+   },
    // recuperer toutes les annonces
    getAllAnnonces: async () => {
       const response = await api('/annonces/all');
-      if (Array.isArray(response.data)) {
-         const format = CheckApiData.formatAllAnnonce(response.data);
-         return format;
-      }
-      return response.data;
+
+      return CheckApiData.formatAllAnnonce(response.data);
    },
    // recuperer une annonce par son id
    getAnnonceById: async (id) => {
-      return await api(`/annonces/${id}`);
+      const response = await api(`/annonces/${id}/admin`);
+      return CheckApiData.formalAnnonce(response.data);
    },
 
    saveDraftAnnonce: (data) => {
@@ -98,6 +102,28 @@ const CheckApiData = {
       return true;
    },
 
+   formalAnnonce: (data) => {
+      const defaultCategories = [
+         { label: "Alerte Sanitaire", value: "alerte" },
+         { label: "Information Générale", value: "info" },
+         { label: "Protocole", value: "protocole" },
+         { label: "Événement", value: "evenement" },
+      ]
+      data.categorie = defaultCategories.find(cat => cat.value === data.categorie) || { label: data.categorie, value: data.categorie }
+      return {
+         id: data.id,
+         titre: data.titre,
+         description: data.description,
+         content: data.content,
+         categorie: data.categorie.label,
+         image: data.image_couverture_url,
+         video: data.video_url,
+         expire: data.expire,
+         joursRestants: data.jours_restants,
+         createdAt: data.created_at
+      };
+   },
+
    formatAllAnnonce: (data) => {
       const archivedAnnonces = []
       const activeAnnonces = []
@@ -111,14 +137,26 @@ const CheckApiData = {
          }
       });
 
+      const defaultCategories = [
+         { label: "Alerte Sanitaire", value: "alerte" },
+         { label: "Information Générale", value: "info" },
+         { label: "Protocole", value: "protocole" },
+         { label: "Événement", value: "evenement" },
+      ]
+
       return {
          archivedAnnonces: archivedAnnonces.map(annonce => {
+
+            if (annonce.categorie) {
+               annonce.categorie = defaultCategories.find(cat => cat.value === annonce.categorie) || { label: annonce.categorie, value: annonce.categorie }
+            }
+            
             return {
                id: annonce.id,
                titre: annonce.titre,
                description: annonce.description,
                content: annonce.content,
-               categorie: annonce.categorie,
+               categorie: annonce.categorie.label,
                image: annonce.image_couverture_url,
                video: annonce.video_url,
                expire: annonce.expire,
@@ -127,12 +165,15 @@ const CheckApiData = {
             };
          }),
          activeAnnonces: activeAnnonces.map(annonce => {
+            if (annonce.categorie) {
+               annonce.categorie = defaultCategories.find(cat => cat.value === annonce.categorie) || { label: annonce.categorie, value: annonce.categorie }
+            }
             return {
                id: annonce.id,
                titre: annonce.titre,
                description: annonce.description,
                content: annonce.content,
-               categorie: annonce.categorie,
+               categorie: annonce.categorie.label,
                image: annonce.image_couverture_url,
                video: annonce.video_url,
                expire: annonce.expire,

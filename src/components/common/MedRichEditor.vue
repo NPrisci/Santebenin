@@ -22,6 +22,7 @@ const props = defineProps({
   },
   minWidth: { type: String, default: "320px" },
   minHeight: { type: String, default: "260px" },
+  height: { type: String, default: null }, // ex: "400px" — active le scroll interne
   maxLength: { type: Number, default: 0 }, // 0 = illimité
 });
 
@@ -176,7 +177,7 @@ const tbl = {
 <template>
   <div
     class="med-editor border rounded-lg bg-white overflow-hidden"
-    :style="{ minWidth: minWidth }"
+    :style="{ minWidth: minWidth, height: height || undefined }"
     @click.self="closeAllMenus"
   >
     <!-- ══════════════════════════════
@@ -560,7 +561,7 @@ const tbl = {
     <EditorContent
       :editor="editor"
       class="med-content"
-      :style="{ minHeight: minHeight }"
+      :style="{ minHeight: height ? undefined : minHeight }"
       @click="closeAllMenus"
     />
 
@@ -817,6 +818,7 @@ const tbl = {
    ─────────────────────────────────────────────── */
 .med-content {
   flex: 1;
+  min-height: 0;
   padding: 1.1rem 1.25rem;
   background: var(--medical-white);
   font-family: "Calibri", Calibri, sans-serif;

@@ -176,7 +176,7 @@ const handlePublishAnnonce = async () => {
 
       // Redirection après succès vers la liste des annonces
       setTimeout(() => {
-        router.push({ name: "all-annonces" }); // Remplace par ta vraie route cible si besoin
+        router.push({ name: "admin-annonces-list" });
       }, 800);
     }
   } catch (err) {
@@ -364,7 +364,7 @@ const handleAddCustomCategory = () => {
             <MedRichEditor
               id="contenu"
               v-model="form.content"
-              min-height="500px"
+              height="700px"
               min-width="100%"
             />
           </div>
