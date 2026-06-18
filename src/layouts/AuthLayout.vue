@@ -180,7 +180,7 @@ const goToAuth = () => isRegister.value ? router.push('/login') : router.push('/
   overflow: hidden;
 }
 .brand-aside-bg {
-  background-image: url('medical-workspace-bg.jpg');
+  background-image: url('@/assets/images/medical-workspace-bg.jpg');
   background-size: cover;
   background-position: center;
   z-index: 1;
