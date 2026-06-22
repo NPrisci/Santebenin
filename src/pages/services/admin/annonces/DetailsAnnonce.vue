@@ -72,12 +72,20 @@ const handleArchive = async () => {
 
 // --- Retour à la liste ---
 const goBack = () => {
-  router.push({ name: "admin-annonces-lis" });
+  router.push({ name: "admin-annonces-list" });
 };
+
+const goToEdit = async (id) => {
+  const encryptedId = await encryptService.localEncrypt(id);
+  router.push({
+    name: "admin-annonce-edit",
+    params: { id: encryptedId },
+  });
+}
 </script>
 
 <template>
-  <div class="container-fluid px-4 py-3 font-body">
+  <div class="container-fluid p-2 font-body">
     <!-- 1. BARRE DE NAVIGATION SUPÉRIEURE (Top Bar) -->
 <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
   <MedButton variant="outline-secondary" size="sm" @click="goBack">
@@ -89,7 +97,7 @@ const goBack = () => {
     <MedButton
       variant="soft-primary"
       size="sm"
-      @click="router.push({ name: 'patient-init', query: { edit: annonce.id } })"
+      @click="goToEdit(annonce.id)"
     >
       <i class="pi pi-pencil me-md-1"></i>
       <span class="d-none d-md-inline">Modifier</span>

@@ -29,10 +29,15 @@ export const AnnonceApi = {
       });
    },
    // recuperer toutes les annonces
-   getAllAnnonces: async () => {
-      const response = await api('/annonces/all');
+   getAllAnnonces: async (page = 1, perPage = 15) => {
+      const response = await api(`/annonces/all?page=${page}&per_page=${perPage}`);
 
-      return CheckApiData.formatAllAnnonce(response.data);
+      const data = {
+         'items': response.items,
+         'pagination': response.pagination
+      }
+
+      return CheckApiData.formatAllAnnonce(data);
    },
    // recuperer une annonce par son id
    getAnnonceById: async (id) => {
@@ -91,11 +96,11 @@ const CheckApiData = {
    },
 
    updateAnnonce: (data) => {
-      if (!data.titre || !data.description || !data.image || !data.categorie) {
+      if (!data.titre || !data.description || !data.categorie) {
          return false;
       }
 
-      if (data.image && !(data.image instanceof File)) {
+      if (data.image && typeof data.image !== 'string' && !(data.image instanceof File)) {
          return false;
       }
 
@@ -128,7 +133,9 @@ const CheckApiData = {
       const archivedAnnonces = []
       const activeAnnonces = []
 
-      data.forEach(annonce => {
+      const items = Array.isArray(data) ? data : (data.items || []);
+
+      items.forEach(annonce => {
          if (annonce.est_active) {
             activeAnnonces.push(annonce);
          }
@@ -178,9 +185,9 @@ const CheckApiData = {
                video: annonce.video_url,
                expire: annonce.expire,
                joursRestants: annonce.jours_restants,
-               createdAt: annonce.created_at
             };
-         })
+         }),
+         pagination: data.pagination || null
       }
    }
 }

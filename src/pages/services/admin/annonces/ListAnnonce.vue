@@ -23,23 +23,40 @@ const { confirm } = useConfirm();
 const isLoading = ref(true);
 const rawActiveAnnonces = ref([]);
 const rawArchivedAnnonces = ref([]);
+const pagination = ref({
+  total: 0,
+  count: 0,
+  per_page: 15,
+  current_page: 1,
+  total_pages: 1
+});
 
 const currentTab = ref("actives");
 const searchQuery = ref("");
 
 // --- Chargement des données ---
-const loadAnnonces = async () => {
+const loadAnnonces = async (page = 1) => {
   isLoading.value = true;
   try {
-    const response = await AnnonceApi.getAllAnnonces();
+    const response = await AnnonceApi.getAllAnnonces(page, pagination.value.per_page);
+    console.log(response);
     rawActiveAnnonces.value = response?.activeAnnonces || [];
     rawArchivedAnnonces.value = response?.archivedAnnonces || [];
+    if (response?.pagination) {
+      pagination.value = response.pagination;
+    }
   } catch (error) {
     toast.warning("Impossible de récupérer les annonces.");
     console.error(error);
   } finally {
     isLoading.value = false;
     uiStore.setDashLoading(false); // Arrêt du loader global du dashboard
+  }
+};
+
+const changePage = (page) => {
+  if (page >= 1 && page <= pagination.value.total_pages) {
+    loadAnnonces(page);
   }
 };
 
@@ -67,7 +84,7 @@ const handleToggleArchive = async (annonceId, isCurrentlyActive) => {
       await AnnonceApi.archiveAnnonce(annonceId);
       toast.success("Annonce archivée avec succès.");
     }
-    await loadAnnonces();
+    await loadAnnonces(pagination.value.current_page);
   // eslint-disable-next-line no-unused-vars
   } catch (err) {
     toast.error(`Erreur lors de l'action.`);
@@ -359,6 +376,60 @@ const filteredAnnonces = computed(() => {
         </MedCard>
       </div>
     </div>
+
+    <!-- Pagination -->
+    <div v-if="!isLoading && pagination.total_pages > 1" class="d-flex justify-content-between align-items-center mt-5 mb-3">
+      <span class="text-muted small">
+        Affichage de {{ (pagination.current_page - 1) * pagination.per_page + 1 }} à
+        {{ Math.min(pagination.current_page * pagination.per_page, pagination.total) }} sur {{ pagination.total }} annonces
+      </span>
+      <nav aria-label="Navigation des pages">
+        <ul class="pagination pagination-sm mb-0">
+          <li class="page-item" :class="{ disabled: pagination.current_page === 1 }">
+            <button class="page-link" @click="changePage(pagination.current_page - 1)" aria-label="Précédent">
+              <i class="pi pi-angle-left"></i>
+            </button>
+          </li>
+          
+          <!-- Un composant de pagination simple (gère jusqu'à 7-10 pages de façon lisible, sinon vous pouvez complexifier) -->
+          <li
+            v-for="page in pagination.total_pages"
+            :key="page"
+            class="page-item"
+            :class="{ active: pagination.current_page === page }"
+          >
+            <!-- Afficher la page seulement si on est dans une plage proche (par ex +- 2) ou si c'est la 1ère/dernière page -->
+            <button
+              v-if="
+                page === 1 || 
+                page === pagination.total_pages || 
+                Math.abs(page - pagination.current_page) <= 2
+              "
+              class="page-link" 
+              @click="changePage(page)"
+            >
+              {{ page }}
+            </button>
+            <span
+              v-else-if="
+                page === 2 && pagination.current_page > 4 ||
+                page === pagination.total_pages - 1 && pagination.current_page < pagination.total_pages - 3
+              "
+              class="page-link disabled"
+            >
+              ...
+            </span>
+          </li>
+
+          <li class="page-item" :class="{ disabled: pagination.current_page === pagination.total_pages }">
+            <button class="page-link" @click="changePage(pagination.current_page + 1)" aria-label="Suivant">
+              <i class="pi pi-angle-right"></i>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
   </div>
 </template>
 

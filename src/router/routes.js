@@ -105,6 +105,12 @@ export const routes = [
         name: 'admin-annonce-details',
         component: () => import('@/pages/services/admin/annonces/DetailsAnnonce.vue'),
         meta: { waitForData: false}
+      },
+      {
+        path: 'annonces/modifier/:id',
+        name: 'admin-annonce-edit',
+        component: () => import('@/pages/services/admin/annonces/EditAnnonce.vue'),
+        meta: { waitForData: false}
       }
     ]
   },
