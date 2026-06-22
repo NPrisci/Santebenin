@@ -3,11 +3,11 @@ import { ref, computed, watch, onUnmounted } from 'vue'
 import MedModal from './MedModal.vue'
 
 const props = defineProps({
-  // Objet File brut provenant de la zone de drop
+  // Accepte maintenant un objet File brut OU une chaîne de caractères (URL)
   file: {
-    type: Object,
+    type: [Object, String],
     required: true,
-    validator: (val) => val instanceof File
+    validator: (val) => typeof val === 'string' || val instanceof File
   },
   label: {
     type: String,
@@ -22,27 +22,79 @@ const props = defineProps({
 const emit = defineEmits(['remove'])
 
 const isModalOpen = ref(false)
-const objectUrl = ref('')
+const displayUrl = ref('')
+const isBlobUrl = ref(false) // Permet de savoir si on doit révoquer l'URL plus tard
 
-const isImage = computed(() => props.file?.type.startsWith('image/'))
-const isVideo = computed(() => props.file?.type.startsWith('video/'))
-const isPdf = computed(() => props.file?.type === 'application/pdf')
+// Helper pour extraire l'extension si le prop est une chaîne (URL)
+const getExtensionFromUrl = (url) => {
+  if (!url || typeof url !== 'string') return ''
+  try {
+    // Nettoyage des paramètres de requête (ex: ?token=...)
+    const path = url.split('?')[0]
+    return path.substring(path.lastIndexOf('.')).toLowerCase()
+  } catch (e) {
+    return ''
+  }
+}
 
+// Détection des types adaptée aux deux formats (File ou URL)
+const isImage = computed(() => {
+  if (props.file instanceof File) return props.file.type.startsWith('image/')
+  const ext = getExtensionFromUrl(props.file)
+  return ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'].includes(ext)
+})
+
+const isVideo = computed(() => {
+  if (props.file instanceof File) return props.file.type.startsWith('video/')
+  const ext = getExtensionFromUrl(props.file)
+  return ['.mp4', '.webm', '.ogg', '.mov'].includes(ext)
+})
+
+const isPdf = computed(() => {
+  if (props.file instanceof File) return props.file.type === 'application/pdf'
+  const ext = getExtensionFromUrl(props.file)
+  return ext === '.pdf'
+})
+
+// Type MIME pour la balise <video>
+const videoType = computed(() => {
+  if (props.file instanceof File) return props.file.type
+  const ext = getExtensionFromUrl(props.file)
+  if (ext === '.mp4') return 'video/mp4'
+  if (ext === '.webm') return 'video/webm'
+  if (ext === '.ogg') return 'video/ogg'
+  return ''
+})
+
+// Gestion des métadonnées (Nom et Taille)
 const fileDetails = computed(() => {
   if (!props.file) return { name: '', size: '' }
-  const sizeInMb = (props.file.size / (1024 * 1024)).toFixed(2)
-  return {
-    name: props.file.name,
-    size: `${sizeInMb} Mo`
+  
+  if (props.file instanceof File) {
+    const sizeInMb = (props.file.size / (1024 * 1024)).toFixed(2)
+    return {
+      name: props.file.name,
+      size: `${sizeInMb} Mo`
+    }
+  } else {
+    // Si c'est une URL, on extrait le nom du fichier à la fin du chemin
+    try {
+      const urlParts = props.file.split('?')[0].split('/')
+      const name = urlParts[urlParts.length - 1] || 'Fichier distant'
+      return { name, size: 'Distant' }
+    } catch (e) {
+      return { name: 'Fichier distant', size: 'Distant' }
+    }
   }
 })
 
-// Stratégie de nettoyage de la mémoire vive (RAM)
+// Nettoyage de la mémoire vive (uniquement si un Blob URL a été créé)
 const revokeCurrentUrl = () => {
-  if (objectUrl.value) {
-    URL.revokeObjectURL(objectUrl.value)
-    objectUrl.value = ''
+  if (displayUrl.value && isBlobUrl.value) {
+    URL.revokeObjectURL(displayUrl.value)
   }
+  displayUrl.value = ''
+  isBlobUrl.value = false
 }
 
 watch(
@@ -50,7 +102,14 @@ watch(
   (newFile) => {
     revokeCurrentUrl()
     if (newFile) {
-      objectUrl.value = URL.createObjectURL(newFile)
+      if (newFile instanceof File) {
+        displayUrl.value = URL.createObjectURL(newFile)
+        isBlobUrl.value = true
+      } else {
+        // C'est déjà une chaîne URL
+        displayUrl.value = newFile
+        isBlobUrl.value = false
+      }
     }
   },
   { immediate: true }
@@ -82,7 +141,7 @@ const handleRemove = () => {
       class="med-preview-frame position-relative overflow-hidden border rounded-lg bg-light d-flex align-items-center justify-content-center"
       :style="{ height: height }"
     >
-      <img v-if="isImage && objectUrl" :src="objectUrl" alt="Aperçu clinique" class="w-100 h-100 object-fit-cover" />
+      <img v-if="isImage && displayUrl" :src="displayUrl" alt="Aperçu clinique" class="w-100 h-100 object-fit-cover" />
 
       <div v-else-if="isVideo" class="w-100 h-100 d-flex flex-column align-items-center justify-content-center text-muted bg-video-skeleton px-3">
         <div class="video-icon-wrapper rounded-circle bg-white shadow-sm d-flex align-items-center justify-content-center mb-2">
@@ -121,7 +180,7 @@ const handleRemove = () => {
         
         <img 
           v-if="isImage" 
-          :src="objectUrl" 
+          :src="displayUrl" 
           alt="Consultation hd" 
           class="img-fluid rounded shadow-sm max-modal-content"
         />
@@ -133,13 +192,13 @@ const handleRemove = () => {
           class="w-100 rounded shadow-sm max-modal-content"
           style="background-color: #000;"
         >
-          <source :src="objectUrl" :type="file.type" />
+          <source :src="displayUrl" :type="videoType" />
           Votre navigateur ne prend pas en charge la lecture de ce clip vidéo.
         </video>
 
         <iframe 
           v-else-if="isPdf" 
-          :src="objectUrl" 
+          :src="displayUrl" 
           class="w-100 border-0 rounded bg-white" 
           style="height: 75vh; min-width: 100%;"
         ></iframe>
@@ -158,47 +217,39 @@ const handleRemove = () => {
 </template>
 
 <style scoped>
+/* Les styles restent inchangés */
 .med-media-preview {
   font-family: var(--body-family);
 }
-
 .med-preview-frame {
   border-color: var(--medical-gray-200) !important;
   transition: all var(--transition-base);
 }
-
 .bg-video-skeleton { background-color: var(--medical-gray-100); }
 .video-icon-wrapper { width: 44px; height: 44px; }
 .bg-pdf-skeleton { background-color: #fef2f2; }
-
 .med-preview-overlay {
   background-color: rgba(15, 23, 42, 0.45);
   opacity: 0;
   pointer-events: none;
 }
-
 .med-preview-frame:hover .med-preview-overlay {
   opacity: 1;
   pointer-events: auto;
 }
-
 .btn-action {
   width: 40px;
   height: 40px;
   padding: 0;
   transition: transform var(--transition-fast) ease;
 }
-
 .btn-action:hover { transform: scale(1.1); }
 .extra-small { font-size: 0.75rem; }
-
-/* Conteneur interne haute définition (Théâtre d'imagerie médicale sombre) */
 .bg-dark-deep {
-  background-color: #0f172a !important; /* Ardoise profond pour éliminer la fatigue oculaire lors des analyses */
+  background-color: #0f172a !important;
 }
-
 .max-modal-content {
-  max-height: 75vh; /* Occupation maximale de l'espace vertical */
+  max-height: 75vh;
   width: auto;
   object-fit: contain;
 }
