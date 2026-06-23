@@ -78,7 +78,7 @@ body {
   color: var(--medical-gray-700);
   background-color: var(--medical-gray-50);
   line-height: 1.6;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
   font-weight: 300;
 }
 

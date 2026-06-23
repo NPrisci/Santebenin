@@ -90,7 +90,7 @@ onUnmounted(() => {
             :class="[currentSelection.icon, 'text-primary fs-5']"
           ></i>
           <div class="text-truncate">
-            <span class="d-block text-dark fw-medium lh-sm">{{
+            <span class="d-block fw-medium lh-sm">{{
               currentSelection.label
             }}</span>
           </div>

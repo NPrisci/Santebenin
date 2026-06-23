@@ -30,7 +30,6 @@ const fetchAnnonceDetails = async () => {
   try {
     const response = await AnnonceApi.getAnnonceById(id.value);
     annonce.value = response;
-    console.log(annonce.value);
   } catch (error) {
     toast.error("Erreur lors de la récupération des détails de l'annonce.");
     console.error(error);

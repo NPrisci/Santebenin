@@ -118,6 +118,12 @@ export const routes = [
         component: () => import('@/pages/services/admin/medicaments/NouvelMedicament.vue'),
         meta: { waitForData: false}
       },
+      {
+        path: 'medicaments/:id',
+        name: 'admin-medicaments-details',
+        component: () => import('@/pages/services/admin/medicaments/DetailMedicament.vue'),
+        meta: { waitForData: false}
+      },
     ]
   },
 

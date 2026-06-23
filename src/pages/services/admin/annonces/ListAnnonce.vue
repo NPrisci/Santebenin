@@ -39,7 +39,6 @@ const loadAnnonces = async (page = 1) => {
   isLoading.value = true;
   try {
     const response = await AnnonceApi.getAllAnnonces(page, pagination.value.per_page);
-    console.log(response);
     rawActiveAnnonces.value = response?.activeAnnonces || [];
     rawArchivedAnnonces.value = response?.archivedAnnonces || [];
     if (response?.pagination) {

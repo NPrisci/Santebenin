@@ -1,0 +1,974 @@
+{
+  "metadata": {
+    "source": "Liste Nationale des Médicaments Essentiels du Bénin",
+    "edition": "8ème Edition (Mise à jour régionale)",
+    "date": "Juillet 2018",
+    "pays": "Bénin",
+    "organisme": "Ministère de la Santé - DPMED",
+    "date_generation": "2026-06-23",
+    "nombre_total": 120,
+    "note": "Codes EAN préfixés par 650. Ajout de 20 molécules stratégiques pour l'Afrique subsaharienne (Paludisme, Drépanocytose, Santé Maternelle et Infantile, VIH, Tuberculose)."
+  },
+  "medicaments": [
+    {
+      "id": 1,
+      "cip_ean": "6500000000001",
+      "nom_commercial": "Fluothane",
+      "nom_generique_dci": "Halothane",
+      "forme_galenique": "Solution",
+      "dosage": "250 ml"
+    },
+    {
+      "id": 2,
+      "cip_ean": "6500000000002",
+      "nom_commercial": "Forène",
+      "nom_generique_dci": "Isoflurane",
+      "forme_galenique": "Solution",
+      "dosage": "250 ml"
+    },
+    {
+      "id": 3,
+      "cip_ean": "6500000000003",
+      "nom_commercial": "SEVORANE",
+      "nom_generique_dci": "Sevoflurane",
+      "forme_galenique": "Solution",
+      "dosage": "250 ml"
+    },
+    {
+      "id": 4,
+      "cip_ean": "6500000000004",
+      "nom_commercial": "Kétalar",
+      "nom_generique_dci": "Kétamine",
+      "forme_galenique": "Injectable",
+      "dosage": "50 mg/ml"
+    },
+    {
+      "id": 5,
+      "cip_ean": "6500000000005",
+      "nom_commercial": "Nesdonal",
+      "nom_generique_dci": "Thiopental sodique",
+      "forme_galenique": "Injectable",
+      "dosage": "0,5 g"
+    },
+    {
+      "id": 6,
+      "cip_ean": "6500000000006",
+      "nom_commercial": "Hypnovel",
+      "nom_generique_dci": "Midazolam",
+      "forme_galenique": "Injectable",
+      "dosage": "5 mg"
+    },
+    {
+      "id": 7,
+      "cip_ean": "6500000000007",
+      "nom_commercial": "Diprivan",
+      "nom_generique_dci": "Propofol",
+      "forme_galenique": "Injectable",
+      "dosage": "200 mg"
+    },
+    {
+      "id": 8,
+      "cip_ean": "6500000000008",
+      "nom_commercial": "Hypnomidate",
+      "nom_generique_dci": "Etomidate",
+      "forme_galenique": "Injectable",
+      "dosage": "2 mg/ml"
+    },
+    {
+      "id": 9,
+      "cip_ean": "6500000000009",
+      "nom_commercial": "Tracrium",
+      "nom_generique_dci": "Atracurium",
+      "forme_galenique": "Injectable",
+      "dosage": "10 mg/ml"
+    },
+    {
+      "id": 10,
+      "cip_ean": "6500000000010",
+      "nom_commercial": "Pavulon",
+      "nom_generique_dci": "Pancuronium",
+      "forme_galenique": "Injectable",
+      "dosage": "2 mg"
+    },
+    {
+      "id": 11,
+      "cip_ean": "6500000000011",
+      "nom_commercial": "Norcuron",
+      "nom_generique_dci": "Vecuronium",
+      "forme_galenique": "Injectable",
+      "dosage": "4 mg"
+    },
+    {
+      "id": 12,
+      "cip_ean": "6500000000012",
+      "nom_commercial": "Célocurine",
+      "nom_generique_dci": "Succinylcholine (Suxaméthonium)",
+      "forme_galenique": "Injectable",
+      "dosage": "50 mg"
+    },
+    {
+      "id": 13,
+      "cip_ean": "6500000000013",
+      "nom_commercial": "Générique",
+      "nom_generique_dci": "Bupivacaïne + épinéphrine",
+      "forme_galenique": "Injectable",
+      "dosage": "0,5 %"
+    },
+    {
+      "id": 14,
+      "cip_ean": "6500000000014",
+      "nom_commercial": "Générique",
+      "nom_generique_dci": "Bupivacaïne hyperbare",
+      "forme_galenique": "Autre",
+      "dosage": "0,5 %"
+    },
+    {
+      "id": 15,
+      "cip_ean": "6500000000015",
+      "nom_commercial": "Xylocaine",
+      "nom_generique_dci": "Lidocaïne",
+      "forme_galenique": "Injectable",
+      "dosage": "2 %"
+    },
+    {
+      "id": 16,
+      "cip_ean": "6500000000016",
+      "nom_commercial": "Ropivacaïne",
+      "nom_generique_dci": "Ropivacaïne",
+      "forme_galenique": "Injectable",
+      "dosage": "2 mg/ml"
+    },
+    {
+      "id": 17,
+      "cip_ean": "6500000000017",
+      "nom_commercial": "Articaïne",
+      "nom_generique_dci": "Articaïne sans adrénaline",
+      "forme_galenique": "Injectable",
+      "dosage": "2 %"
+    },
+    {
+      "id": 18,
+      "cip_ean": "6500000000018",
+      "nom_commercial": "Articaïne + adrenaline",
+      "nom_generique_dci": "Articaïne + adrenaline",
+      "forme_galenique": "Injectable",
+      "dosage": "1/100 000"
+    },
+    {
+      "id": 19,
+      "cip_ean": "6500000000019",
+      "nom_commercial": "Articaïne + adrenaline",
+      "nom_generique_dci": "Articaïne + adrenaline",
+      "forme_galenique": "Injectable",
+      "dosage": "1/200 000"
+    },
+    {
+      "id": 20,
+      "cip_ean": "6500000000020",
+      "nom_commercial": "Mepivacaïne",
+      "nom_generique_dci": "Mepivacaïne",
+      "forme_galenique": "Injectable",
+      "dosage": "2 %"
+    },
+    {
+      "id": 21,
+      "cip_ean": "6500000000021",
+      "nom_commercial": "Ephedrine",
+      "nom_generique_dci": "Ephedrine",
+      "forme_galenique": "Ampoule",
+      "dosage": "30 mg"
+    },
+    {
+      "id": 22,
+      "cip_ean": "6500000000022",
+      "nom_commercial": "Dafalgan",
+      "nom_generique_dci": "Paracétamol",
+      "forme_galenique": "Comprimé",
+      "dosage": "500 mg"
+    },
+    {
+      "id": 23,
+      "cip_ean": "6500000000023",
+      "nom_commercial": "ACUPAN",
+      "nom_generique_dci": "Néfopam",
+      "forme_galenique": "Injectable",
+      "dosage": "20 mg"
+    },
+    {
+      "id": 24,
+      "cip_ean": "6500000000024",
+      "nom_commercial": "Aspirine",
+      "nom_generique_dci": "Acide acétylsalicylique",
+      "forme_galenique": "Comprimé",
+      "dosage": "1000 mg"
+    },
+    {
+      "id": 25,
+      "cip_ean": "6500000000025",
+      "nom_commercial": "Aspegic",
+      "nom_generique_dci": "Acétylsalicylate de DL-lysine",
+      "forme_galenique": "Injectable",
+      "dosage": "500 mg"
+    },
+    {
+      "id": 26,
+      "cip_ean": "6500000000026",
+      "nom_commercial": "Générique",
+      "nom_generique_dci": "Tramadol",
+      "forme_galenique": "Gélule",
+      "dosage": "50 mg"
+    },
+    {
+      "id": 27,
+      "cip_ean": "6500000000027",
+      "nom_commercial": "Générique",
+      "nom_generique_dci": "Buprenorphine",
+      "forme_galenique": "Injectable",
+      "dosage": "0,3 mg"
+    },
+    {
+      "id": 28,
+      "cip_ean": "6500000000028",
+      "nom_commercial": "Générique",
+      "nom_generique_dci": "Nalbuphine",
+      "forme_galenique": "Ampoule",
+      "dosage": "20 mg"
+    },
+    {
+      "id": 29,
+      "cip_ean": "6500000000029",
+      "nom_commercial": "Générique",
+      "nom_generique_dci": "Morphine chlorhydrate",
+      "forme_galenique": "Comprimé",
+      "dosage": "10 mg"
+    },
+    {
+      "id": 30,
+      "cip_ean": "6500000000030",
+      "nom_commercial": "Générique",
+      "nom_generique_dci": "Fentanyl",
+      "forme_galenique": "Injectable",
+      "dosage": "0,5 mg"
+    },
+    {
+      "id": 31,
+      "cip_ean": "6500000000031",
+      "nom_commercial": "Générique",
+      "nom_generique_dci": "Sufentanil",
+      "forme_galenique": "Injectable",
+      "dosage": "50 µg"
+    },
+    {
+      "id": 32,
+      "cip_ean": "6500000000032",
+      "nom_commercial": "Générique",
+      "nom_generique_dci": "Remifentanil",
+      "forme_galenique": "Injectable",
+      "dosage": "1 mg"
+    },
+    {
+      "id": 33,
+      "cip_ean": "6500000000033",
+      "nom_commercial": "Méthadone",
+      "nom_generique_dci": "Méthadone chlorhydrate",
+      "forme_galenique": "Gélule",
+      "dosage": "5 mg"
+    },
+    {
+      "id": 34,
+      "cip_ean": "6500000000034",
+      "nom_commercial": "Générique",
+      "nom_generique_dci": "Paracétamol + Codeine",
+      "forme_galenique": "Comprimé",
+      "dosage": "500 mg / 30 mg"
+    },
+    {
+      "id": 35,
+      "cip_ean": "6500000000035",
+      "nom_commercial": "Aspirine",
+      "nom_generique_dci": "Acide acétylsalicylique",
+      "forme_galenique": "Autre",
+      "dosage": "500 mg"
+    },
+    {
+      "id": 36,
+      "cip_ean": "6500000000036",
+      "nom_commercial": "Aspegic",
+      "nom_generique_dci": "Acétylsalicylate de DL-lysine",
+      "forme_galenique": "Autre",
+      "dosage": "500 mg"
+    },
+    {
+      "id": 37,
+      "cip_ean": "6500000000037",
+      "nom_commercial": "Brufen",
+      "nom_generique_dci": "Ibuprofène",
+      "forme_galenique": "Comprimé",
+      "dosage": "400 mg"
+    },
+    {
+      "id": 38,
+      "cip_ean": "6500000000038",
+      "nom_commercial": "Profenid",
+      "nom_generique_dci": "Ketoprofene",
+      "forme_galenique": "Comprimé",
+      "dosage": "200 mg"
+    },
+    {
+      "id": 39,
+      "cip_ean": "6500000000039",
+      "nom_commercial": "Indocid",
+      "nom_generique_dci": "Indométacine",
+      "forme_galenique": "Comprimé",
+      "dosage": "25 mg"
+    },
+    {
+      "id": 40,
+      "cip_ean": "6500000000040",
+      "nom_commercial": "Voltarène",
+      "nom_generique_dci": "Diclofénac",
+      "forme_galenique": "Suppositoire",
+      "dosage": "100 mg"
+    },
+    {
+      "id": 41,
+      "cip_ean": "6500000000041",
+      "nom_commercial": "Nexen",
+      "nom_generique_dci": "Nimésulide",
+      "forme_galenique": "Comprimé",
+      "dosage": "100 mg"
+    },
+    {
+      "id": 42,
+      "cip_ean": "6500000000042",
+      "nom_commercial": "Mobic",
+      "nom_generique_dci": "Méloxicam",
+      "forme_galenique": "Suppositoire",
+      "dosage": "7,5 mg"
+    },
+    {
+      "id": 43,
+      "cip_ean": "6500000000043",
+      "nom_commercial": "Célestène",
+      "nom_generique_dci": "Bétaméthasone",
+      "forme_galenique": "Injectable",
+      "dosage": "4 mg"
+    },
+    {
+      "id": 44,
+      "cip_ean": "6500000000044",
+      "nom_commercial": "Générique",
+      "nom_generique_dci": "Bétaméthasone",
+      "forme_galenique": "Comprimé",
+      "dosage": "2 mg"
+    },
+    {
+      "id": 45,
+      "cip_ean": "6500000000045",
+      "nom_commercial": "Prednisolone",
+      "nom_generique_dci": "Prednisolone",
+      "forme_galenique": "Comprimé",
+      "dosage": "20 mg"
+    },
+    {
+      "id": 46,
+      "cip_ean": "6500000000046",
+      "nom_commercial": "Dexaméthasone",
+      "nom_generique_dci": "Dexaméthasone",
+      "forme_galenique": "Injectable",
+      "dosage": "4 mg"
+    },
+    {
+      "id": 47,
+      "cip_ean": "6500000000047",
+      "nom_commercial": "Générique",
+      "nom_generique_dci": "Hydrocortisone",
+      "forme_galenique": "Injectable",
+      "dosage": "100 mg"
+    },
+    {
+      "id": 48,
+      "cip_ean": "6500000000048",
+      "nom_commercial": "Lyrica",
+      "nom_generique_dci": "Prégabaline",
+      "forme_galenique": "Gélule",
+      "dosage": "75 mg"
+    },
+    {
+      "id": 49,
+      "cip_ean": "6500000000049",
+      "nom_commercial": "Neurontin",
+      "nom_generique_dci": "Gabapentine",
+      "forme_galenique": "Comprimé",
+      "dosage": "300 mg"
+    },
+    {
+      "id": 50,
+      "cip_ean": "6500000000050",
+      "nom_commercial": "Zyloric",
+      "nom_generique_dci": "Allopurinol",
+      "forme_galenique": "Comprimé",
+      "dosage": "100 mg"
+    },
+    {
+      "id": 51,
+      "cip_ean": "6500000000051",
+      "nom_commercial": "Colchicine",
+      "nom_generique_dci": "Colchicine",
+      "forme_galenique": "Comprimé",
+      "dosage": "1 mg"
+    },
+    {
+      "id": 52,
+      "cip_ean": "6500000000052",
+      "nom_commercial": "Phénergan",
+      "nom_generique_dci": "Prométhazine",
+      "forme_galenique": "Comprimé",
+      "dosage": "25 mg"
+    },
+    {
+      "id": 53,
+      "cip_ean": "6500000000053",
+      "nom_commercial": "Polaramine",
+      "nom_generique_dci": "Dexchlorpheniramine",
+      "forme_galenique": "Comprimé",
+      "dosage": "2 mg"
+    },
+    {
+      "id": 54,
+      "cip_ean": "6500000000054",
+      "nom_commercial": "Aerius",
+      "nom_generique_dci": "Desloratadine",
+      "forme_galenique": "Comprimé",
+      "dosage": "5 mg"
+    },
+    {
+      "id": 55,
+      "cip_ean": "6500000000055",
+      "nom_commercial": "Clarityne",
+      "nom_generique_dci": "Loratadine",
+      "forme_galenique": "Solution buvable",
+      "dosage": "1 mg/ml"
+    },
+    {
+      "id": 56,
+      "cip_ean": "6500000000056",
+      "nom_commercial": "Xyzall",
+      "nom_generique_dci": "Lévocétirizine",
+      "forme_galenique": "Comprimé",
+      "dosage": "5 mg"
+    },
+    {
+      "id": 57,
+      "cip_ean": "6500000000057",
+      "nom_commercial": "Atarax",
+      "nom_generique_dci": "Hydroxyzine",
+      "forme_galenique": "Comprimé",
+      "dosage": "25 mg"
+    },
+    {
+      "id": 58,
+      "cip_ean": "6500000000058",
+      "nom_commercial": "Zyrtec",
+      "nom_generique_dci": "Cétirizine",
+      "forme_galenique": "Comprimé",
+      "dosage": "10 mg"
+    },
+    {
+      "id": 59,
+      "cip_ean": "6500000000059",
+      "nom_commercial": "Zaditen",
+      "nom_generique_dci": "Kétotifène",
+      "forme_galenique": "Sirop",
+      "dosage": "1 mg/5 ml"
+    },
+    {
+      "id": 60,
+      "cip_ean": "6500000000060",
+      "nom_commercial": "Intal",
+      "nom_generique_dci": "Cromoglicate de sodium",
+      "forme_galenique": "Comprimé",
+      "dosage": "100 mg"
+    },
+    {
+      "id": 61,
+      "cip_ean": "6500000000061",
+      "nom_commercial": "Atropine",
+      "nom_generique_dci": "Sulfate d'Atropine",
+      "forme_galenique": "Injectable",
+      "dosage": "1 mg/ml"
+    },
+    {
+      "id": 62,
+      "cip_ean": "6500000000062",
+      "nom_commercial": "Narcan",
+      "nom_generique_dci": "Naloxone",
+      "forme_galenique": "Injectable",
+      "dosage": "0,4 mg/ml"
+    },
+    {
+      "id": 63,
+      "cip_ean": "6500000000063",
+      "nom_commercial": "Mucomyst",
+      "nom_generique_dci": "N-Acétylcystéine",
+      "forme_galenique": "Injectable",
+      "dosage": "200 mg/ml"
+    },
+    {
+      "id": 64,
+      "cip_ean": "6500000000064",
+      "nom_commercial": "Anexate",
+      "nom_generique_dci": "Flumazénil",
+      "forme_galenique": "Injectable",
+      "dosage": "0,5 mg/5 ml"
+    },
+    {
+      "id": 65,
+      "cip_ean": "6500000000065",
+      "nom_commercial": "Prostigmine",
+      "nom_generique_dci": "Neostygmine",
+      "forme_galenique": "Injectable",
+      "dosage": "0,5 mg/ml"
+    },
+    {
+      "id": 66,
+      "cip_ean": "6500000000066",
+      "nom_commercial": "Gluconate de calcium",
+      "nom_generique_dci": "Gluconate de calcium",
+      "forme_galenique": "Injectable",
+      "dosage": "10 %"
+    },
+    {
+      "id": 67,
+      "cip_ean": "6500000000067",
+      "nom_commercial": "Vitamine K1",
+      "nom_generique_dci": "Phytoménadione",
+      "forme_galenique": "Ampoule",
+      "dosage": "10 mg/ml"
+    },
+    {
+      "id": 68,
+      "cip_ean": "6500000000068",
+      "nom_commercial": "Dantrium",
+      "nom_generique_dci": "Dantrolène",
+      "forme_galenique": "Injectable",
+      "dosage": "20 mg"
+    },
+    {
+      "id": 69,
+      "cip_ean": "6500000000069",
+      "nom_commercial": "Isuprel",
+      "nom_generique_dci": "Isoprénaline",
+      "forme_galenique": "Injectable",
+      "dosage": "0,2 mg/ml"
+    },
+    {
+      "id": 70,
+      "cip_ean": "6500000000070",
+      "nom_commercial": "Valium",
+      "nom_generique_dci": "Diazépam",
+      "forme_galenique": "Injectable",
+      "dosage": "10 mg/2 ml"
+    },
+    {
+      "id": 71,
+      "cip_ean": "6500000000071",
+      "nom_commercial": "Hypnovel",
+      "nom_generique_dci": "Midazolam",
+      "forme_galenique": "Injectable",
+      "dosage": "5 mg/ml"
+    },
+    {
+      "id": 72,
+      "cip_ean": "6500000000072",
+      "nom_commercial": "Gardénal",
+      "nom_generique_dci": "Phénobarbital",
+      "forme_galenique": "Comprimé",
+      "dosage": "100 mg"
+    },
+    {
+      "id": 73,
+      "cip_ean": "6500000000073",
+      "nom_commercial": "Dépakine",
+      "nom_generique_dci": "Valproate de sodium",
+      "forme_galenique": "Injectable",
+      "dosage": "400 mg"
+    },
+    {
+      "id": 74,
+      "cip_ean": "6500000000074",
+      "nom_commercial": "Temesta",
+      "nom_generique_dci": "Lorazépam",
+      "forme_galenique": "Injectable",
+      "dosage": "4 mg/ml"
+    },
+    {
+      "id": 75,
+      "cip_ean": "6500000000075",
+      "nom_commercial": "Rivotril",
+      "nom_generique_dci": "Clonazépam",
+      "forme_galenique": "Comprimé",
+      "dosage": "2 mg"
+    },
+    {
+      "id": 76,
+      "cip_ean": "6500000000076",
+      "nom_commercial": "Tégrétol",
+      "nom_generique_dci": "Carbamazépine",
+      "forme_galenique": "Comprimé",
+      "dosage": "200 mg"
+    },
+    {
+      "id": 77,
+      "cip_ean": "6500000000077",
+      "nom_commercial": "Neurontin",
+      "nom_generique_dci": "Gabapentine",
+      "forme_galenique": "Gélule",
+      "dosage": "300 mg"
+    },
+    {
+      "id": 78,
+      "cip_ean": "6500000000078",
+      "nom_commercial": "Lamictal",
+      "nom_generique_dci": "Lamotrigine",
+      "forme_galenique": "Comprimé",
+      "dosage": "100 mg"
+    },
+    {
+      "id": 79,
+      "cip_ean": "6500000000079",
+      "nom_commercial": "Sulfate de magnésium",
+      "nom_generique_dci": "Sulfate de magnésium",
+      "forme_galenique": "Injectable",
+      "dosage": "15 %"
+    },
+    {
+      "id": 80,
+      "cip_ean": "6500000000080",
+      "nom_commercial": "Ampicilline",
+      "nom_generique_dci": "Ampicilline",
+      "forme_galenique": "Injectable",
+      "dosage": "1 g"
+    },
+    {
+      "id": 81,
+      "cip_ean": "6500000000081",
+      "nom_commercial": "Amoxicilline",
+      "nom_generique_dci": "Amoxicilline",
+      "forme_galenique": "Comprimé",
+      "dosage": "500 mg"
+    },
+    {
+      "id": 82,
+      "cip_ean": "6500000000082",
+      "nom_commercial": "Augmentin",
+      "nom_generique_dci": "Amoxicilline + acide clavulanique",
+      "forme_galenique": "Comprimé",
+      "dosage": "500 mg / 62,5 mg"
+    },
+    {
+      "id": 83,
+      "cip_ean": "6500000000083",
+      "nom_commercial": "Pénicilline G",
+      "nom_generique_dci": "Benzyl pénicilline",
+      "forme_galenique": "Injectable",
+      "dosage": "1 000 000 UI"
+    },
+    {
+      "id": 84,
+      "cip_ean": "6500000000084",
+      "nom_commercial": "Oracilline",
+      "nom_generique_dci": "Phénoxyméthylpénicilline",
+      "forme_galenique": "Comprimé",
+      "dosage": "1 000 000 UI"
+    },
+    {
+      "id": 85,
+      "cip_ean": "6500000000085",
+      "nom_commercial": "Bipénicilline",
+      "nom_generique_dci": "Procaïne-benzylpénicilline",
+      "forme_galenique": "Injectable",
+      "dosage": "1 000 000 UI"
+    },
+    {
+      "id": 86,
+      "cip_ean": "6500000000086",
+      "nom_commercial": "Orbenine",
+      "nom_generique_dci": "Cloxacilline",
+      "forme_galenique": "Gélule",
+      "dosage": "500 mg"
+    },
+    {
+      "id": 87,
+      "cip_ean": "6500000000087",
+      "nom_commercial": "Bristopen",
+      "nom_generique_dci": "Oxacilline",
+      "forme_galenique": "Injectable",
+      "dosage": "1 g"
+    },
+    {
+      "id": 88,
+      "cip_ean": "6500000000088",
+      "nom_commercial": "Floxapen",
+      "nom_generique_dci": "Flucloxacilline",
+      "forme_galenique": "Gélule",
+      "dosage": "500 mg"
+    },
+    {
+      "id": 89,
+      "cip_ean": "6500000000089",
+      "nom_commercial": "Céfazoline",
+      "nom_generique_dci": "Céfazoline",
+      "forme_galenique": "Injectable",
+      "dosage": "1 g"
+    },
+    {
+      "id": 90,
+      "cip_ean": "6500000000090",
+      "nom_commercial": "Zinnat",
+      "nom_generique_dci": "Céfuroxime",
+      "forme_galenique": "Comprimé",
+      "dosage": "250 mg"
+    },
+    {
+      "id": 91,
+      "cip_ean": "6500000000091",
+      "nom_commercial": "Claforan",
+      "nom_generique_dci": "Céfotaxime",
+      "forme_galenique": "Injectable",
+      "dosage": "1 g"
+    },
+    {
+      "id": 92,
+      "cip_ean": "6500000000092",
+      "nom_commercial": "Rocéphine",
+      "nom_generique_dci": "Ceftriaxone",
+      "forme_galenique": "Injectable",
+      "dosage": "1 g"
+    },
+    {
+      "id": 93,
+      "cip_ean": "6500000000093",
+      "nom_commercial": "Fortum",
+      "nom_generique_dci": "Ceftazidime",
+      "forme_galenique": "Injectable",
+      "dosage": "1 g"
+    },
+    {
+      "id": 94,
+      "cip_ean": "6500000000094",
+      "nom_commercial": "Erythrocine",
+      "nom_generique_dci": "Erythromycine",
+      "forme_galenique": "Comprimé",
+      "dosage": "500 mg"
+    },
+    {
+      "id": 95,
+      "cip_ean": "6500000000095",
+      "nom_commercial": "Zithromax",
+      "nom_generique_dci": "Azithromycine",
+      "forme_galenique": "Comprimé",
+      "dosage": "500 mg"
+    },
+    {
+      "id": 96,
+      "cip_ean": "6500000000096",
+      "nom_commercial": "Zeclar",
+      "nom_generique_dci": "Clarithromycine",
+      "forme_galenique": "Comprimé",
+      "dosage": "500 mg"
+    },
+    {
+      "id": 97,
+      "cip_ean": "6500000000097",
+      "nom_commercial": "Gentalline",
+      "nom_generique_dci": "Gentamicine",
+      "forme_galenique": "Injectable",
+      "dosage": "80 mg"
+    },
+    {
+      "id": 98,
+      "cip_ean": "6500000000098",
+      "nom_commercial": "Netromycine",
+      "nom_generique_dci": "Netilmicine",
+      "forme_galenique": "Injectable",
+      "dosage": "100 mg"
+    },
+    {
+      "id": 99,
+      "cip_ean": "6500000000099",
+      "nom_commercial": "Ciflox",
+      "nom_generique_dci": "Ciprofloxacine",
+      "forme_galenique": "Comprimé",
+      "dosage": "500 mg"
+    },
+    {
+      "id": 100,
+      "cip_ean": "6500000000100",
+      "nom_commercial": "Oflocet",
+      "nom_generique_dci": "Ofloxacine",
+      "forme_galenique": "Comprimé",
+      "dosage": "200 mg"
+    },
+    {
+      "id": 101,
+      "cip_ean": "6500000000101",
+      "nom_commercial": "Coartem",
+      "nom_generique_dci": "Artéméther + Luméfantrine",
+      "forme_galenique": "Comprimé",
+      "dosage": "20 mg / 120 mg"
+    },
+    {
+      "id": 102,
+      "cip_ean": "6500000000102",
+      "nom_commercial": "Artesunate Inj",
+      "nom_generique_dci": "Artésunate",
+      "forme_galenique": "Injectable",
+      "dosage": "60 mg"
+    },
+    {
+      "id": 103,
+      "cip_ean": "6500000000103",
+      "nom_commercial": "Fansidar",
+      "nom_generique_dci": "Sulfadoxine + Pyriméthamine",
+      "forme_galenique": "Comprimé",
+      "dosage": "500 mg / 25 mg"
+    },
+    {
+      "id": 104,
+      "cip_ean": "6500000000104",
+      "nom_commercial": "ASAQ",
+      "nom_generique_dci": "Amodiaquine + Artésunate",
+      "forme_galenique": "Comprimé",
+      "dosage": "135 mg / 50 mg"
+    },
+    {
+      "id": 105,
+      "cip_ean": "6500000000105",
+      "nom_commercial": "Siklos",
+      "nom_generique_dci": "Hydroxycarbamide (Hydroxyurée)",
+      "forme_galenique": "Comprimé",
+      "dosage": "100 mg"
+    },
+    {
+      "id": 106,
+      "cip_ean": "6500000000106",
+      "nom_commercial": "Acide Folique",
+      "nom_generique_dci": "Acide folique",
+      "forme_galenique": "Comprimé",
+      "dosage": "5 mg"
+    },
+    {
+      "id": 107,
+      "cip_ean": "6500000000107",
+      "nom_commercial": "Fefol",
+      "nom_generique_dci": "Fer + Acide folique",
+      "forme_galenique": "Comprimé",
+      "dosage": "200 mg / 0.25 mg"
+    },
+    {
+      "id": 108,
+      "cip_ean": "6500000000108",
+      "nom_commercial": "ARV TLD",
+      "nom_generique_dci": "Dolutégravir + Lamivudine + Ténofovir",
+      "forme_galenique": "Comprimé",
+      "dosage": "50 mg / 300 mg / 300 mg"
+    },
+    {
+      "id": 109,
+      "cip_ean": "6500000000109",
+      "nom_commercial": "RHZE",
+      "nom_generique_dci": "Rifampicine + Isoniazide + Pyrazinamide + Ethambutol",
+      "forme_galenique": "Comprimé",
+      "dosage": "150/75/400/275 mg"
+    },
+    {
+      "id": 110,
+      "cip_ean": "6500000000110",
+      "nom_commercial": "Zentel",
+      "nom_generique_dci": "Albendazole",
+      "forme_galenique": "Comprimé",
+      "dosage": "400 mg"
+    },
+    {
+      "id": 111,
+      "cip_ean": "6500000000111",
+      "nom_commercial": "Vermox",
+      "nom_generique_dci": "Mébendazole",
+      "forme_galenique": "Comprimé",
+      "dosage": "100 mg"
+    },
+    {
+      "id": 112,
+      "cip_ean": "6500000000112",
+      "nom_commercial": "Biltricide",
+      "nom_generique_dci": "Praziquantel",
+      "forme_galenique": "Comprimé",
+      "dosage": "600 mg"
+    },
+    {
+      "id": 113,
+      "cip_ean": "6500000000113",
+      "nom_commercial": "SRO",
+      "nom_generique_dci": "Sels de Réhydratation Orale",
+      "forme_galenique": "Sachet",
+      "dosage": "20.5 g"
+    },
+    {
+      "id": 114,
+      "cip_ean": "6500000000114",
+      "nom_commercial": "Zinc",
+      "nom_generique_dci": "Sulfate de Zinc",
+      "forme_galenique": "Comprimé dispersible",
+      "dosage": "20 mg"
+    },
+    {
+      "id": 115,
+      "cip_ean": "6500000000115",
+      "nom_commercial": "Cytotec",
+      "nom_generique_dci": "Misoprostol",
+      "forme_galenique": "Comprimé",
+      "dosage": "200 µg"
+    },
+    {
+      "id": 116,
+      "cip_ean": "6500000000116",
+      "nom_commercial": "Syntocinon",
+      "nom_generique_dci": "Oxytocine",
+      "forme_galenique": "Injectable",
+      "dosage": "10 UI/ml"
+    },
+    {
+      "id": 117,
+      "cip_ean": "6500000000117",
+      "nom_commercial": "Flagyl",
+      "nom_generique_dci": "Métronidazole",
+      "forme_galenique": "Comprimé",
+      "dosage": "250 mg"
+    },
+    {
+      "id": 118,
+      "cip_ean": "6500000000118",
+      "nom_commercial": "Amoxicilline Dispersible",
+      "nom_generique_dci": "Amoxicilline",
+      "forme_galenique": "Comprimé dispersible",
+      "dosage": "250 mg"
+    },
+    {
+      "id": 119,
+      "cip_ean": "6500000000119",
+      "nom_commercial": "Chlorhexidine",
+      "nom_generique_dci": "Digluconate de chlorhexidine",
+      "forme_galenique": "Gel",
+      "dosage": "7.1 %"
+    },
+    {
+      "id": 120,
+      "cip_ean": "6500000000120",
+      "nom_commercial": "Depo-Provera",
+      "nom_generique_dci": "Médroxyprogestérone",
+      "forme_galenique": "Injectable",
+      "dosage": "150 mg/ml"
+    }
+  ]
+}

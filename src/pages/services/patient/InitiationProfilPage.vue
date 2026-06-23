@@ -66,9 +66,7 @@ onMounted(async () => {
       ProfilInitialisation.userData(),
       ProfilInitialisation.init(),
     ]);
-
-    console.log(userData);
-
+    
     user.value = userData;
     refData.groupeSanguin = medicalLookups.groupeSanguin || [];
     refData.allergies = medicalLookups.allergies || [];

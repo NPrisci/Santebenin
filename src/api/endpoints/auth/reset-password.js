@@ -3,7 +3,6 @@ import { api } from "@/api/clients/main";
 
 const ResetPasswordService = {
    init: async (npi) => {
-      console.log(npi)
       if (!npi) {
          throw new Error("Le NPI est requis")
       }
