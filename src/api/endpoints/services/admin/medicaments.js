@@ -73,7 +73,7 @@ const CheckApiData = {
   },
 
   updateMedicament: (data) => {
-    if (!data.id || !data.nom || !data.code || !data.nom_generique || !data.forme || data.dosage) {
+    if (!data.id || !data.nom || !data.code || !data.nom_generique || !data.forme || !data.dosage) {
       return false;
     }
 

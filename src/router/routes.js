@@ -124,6 +124,12 @@ export const routes = [
         component: () => import('@/pages/services/admin/medicaments/DetailMedicament.vue'),
         meta: { waitForData: false}
       },
+      {
+        path: 'medicaments/modifier/:id',
+        name: 'admin-medicaments-edit',
+        component: () => import('@/pages/services/admin/medicaments/EditMedicament.vue'),
+        meta: { waitForData: false}
+      },
     ]
   },
 
