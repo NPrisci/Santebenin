@@ -70,7 +70,7 @@ const customInput = ref("");
 // --- Chargement de l'annonce ---
 const fetchAnnonceDetails = async () => {
   isLoading.value = true;
-  id.value = await encryptService.localDecrypt(annonceIdParams);
+  id.value = await encryptService.decrypt(annonceIdParams);
   try {
     const response = await AnnonceApi.getAnnonceById(id.value);
     

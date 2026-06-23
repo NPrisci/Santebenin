@@ -76,7 +76,7 @@ const goBack = () => {
 };
 
 const goToEdit = async (id) => {
-  const encryptedId = await encryptService.localEncrypt(id);
+  const encryptedId = await encryptService.encrypt(id);
   router.push({
     name: "admin-annonce-edit",
     params: { id: encryptedId },

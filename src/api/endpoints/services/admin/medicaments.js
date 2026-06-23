@@ -58,3 +58,5 @@ const CheckApiData = {
       return true;
    },
 }
+
+export default MedicamentsService;
