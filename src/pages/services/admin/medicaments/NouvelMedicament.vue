@@ -165,7 +165,7 @@ const handleAddMedicament = async () => {
     Object.keys(form).forEach((key) => {
       form[key] = key === "prix" ? null : "";
     });
-  // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
   } catch (error) {
     toast.warning("Une erreur est survenue lors de l'enregistrement.");
   } finally {
@@ -334,7 +334,11 @@ const filteredHistory = computed(() => {
             />
           </div>
 
-          <div v-else class="med-compact-list overflow-y-auto overflow-x-hidden" style="max-height: 460px">
+          <div
+            v-else
+            class="med-compact-list overflow-y-auto overflow-x-hidden"
+            style="max-height: 460px"
+          >
             <TransitionGroup name="list-slide">
               <div
                 v-for="med in filteredHistory"

@@ -9,3 +9,7 @@ export function splitDate(dateStr) {
    const jour = date.getDate().toString();
    return [mois, jour];
 }
+
+export function isEmpty(obj) {
+   return Object.keys(obj).length === 0 && obj.constructor === Object;
+}

@@ -13,7 +13,7 @@ const MedicamentsService = {
     return data;
   },
 
-  one: async (id) => {
+  getMedicament: async (id) => {
     const response = await api(`/medicaments/${id}`);
     return response.data;
   },
