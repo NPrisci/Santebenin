@@ -97,7 +97,7 @@ const goToCreate = () => {
 };
 
 const goToDetail = async (id) => {
-  const encryptedId = await encryptService.localEncrypt(id);
+  const encryptedId = await encryptService.encrypt(id);
   router.push({
     name: "admin-annonce-details",
     params: { id: encryptedId },

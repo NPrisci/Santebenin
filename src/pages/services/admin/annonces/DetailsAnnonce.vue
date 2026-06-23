@@ -26,7 +26,7 @@ const annonceId = route.params.id;
 // --- Chargement de l'annonce depuis l'API ---
 const fetchAnnonceDetails = async () => {
   isLoading.value = true;
-  id.value = await encryptService.localDecrypt(annonceId);
+  id.value = await encryptService.decrypt(annonceId);
   try {
     const response = await AnnonceApi.getAnnonceById(id.value);
     annonce.value = response;
