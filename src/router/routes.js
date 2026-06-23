@@ -111,7 +111,13 @@ export const routes = [
         name: 'admin-annonce-edit',
         component: () => import('@/pages/services/admin/annonces/EditAnnonce.vue'),
         meta: { waitForData: false}
-      }
+      },
+      {
+        path: 'medicaments/nouvel',
+        name: 'admin-medicaments-nouvel',
+        component: () => import('@/pages/services/admin/medicaments/NouvelMedicament.vue'),
+        meta: { waitForData: false}
+      },
     ]
   },
 

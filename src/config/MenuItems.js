@@ -128,6 +128,24 @@ export const adminItems = [
       ],
    },
    {
+      id: 'section-medicaments',
+      title: 'Medcament',
+      items: [
+         {
+            id: 'medicaments',
+            label: 'Nouveau médicament',
+            icon: 'fas fa-capsules',
+            route: '/a/medicaments/nouvel',
+         },
+         {
+            id: 'medicaments-list',
+            label: 'Catalogue des médicaments',
+            icon: 'fas fa-pills',
+            route: '/a/medicaments',
+         }
+      ],
+   },
+   {
       id: 'section-admin',
       title: 'Administration',
       items: [
