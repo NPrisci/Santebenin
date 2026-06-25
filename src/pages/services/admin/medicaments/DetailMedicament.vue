@@ -122,7 +122,7 @@ const handleArchive = async () => {
     const response = await MedicamentsService.delete(medData.value.id);
     if (response.success) {
       toast.success(`${medData.value.nom} a été archivé avec succès.`);
-      router.push({ name: "admin-medicaments-liste" });
+      router.push({ name: "admin-medicaments-list" });
     }
     // eslint-disable-next-line no-unused-vars
   } catch (error) {
@@ -131,43 +131,48 @@ const handleArchive = async () => {
 };
 
 const goBack = () => {
-  router.push({ name: "admin-medicaments-liste" });
+  router.push({ name: "admin-medicaments-list" });
 };
 </script>
 
 <template>
   <div class="container-fluid p-2 font-body">
-    <div
-      class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 border-bottom pb-3 mb-4"
-    >
-      <div class="d-flex align-items-start gap-3 text-truncate flex-grow-1 min-w-0">
-        <button
-          class="btn btn-outline-secondary btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0"
-          style="width: 38px; height: 38px"
-          @click="goBack"
-          title="Retourner à la liste"
-        >
-          <i class="pi pi-arrow-left"></i>
-        </button>
+    <div class="row g-3 border-bottom pb-3 mb-4 align-items-center">
+      <!-- PREMIÈRE PARTIE : Titre et DCI -->
+      <!-- Prend toute la largeur sur mobile, et l'espace disponible (auto) sur grand écran -->
+      <div class="col-12 col-md flex-grow-1 min-w-0">
+        <div class="d-flex align-items-start gap-3">
+          <button
+            class="btn btn-outline-secondary btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0"
+            style="width: 38px; height: 38px"
+            @click="goBack"
+            title="Retourner à la liste"
+          >
+            <i class="pi pi-arrow-left"></i>
+          </button>
 
-        <div v-if="!isLoading && medData" class="min-w-0 w-100">
-          <h2 class="h3 mb-1 fw-bold text-dark font-title text-truncate">
-            {{ medData.nom }} <span class="text-muted fw-normal fs-5">({{ medData.dosage }})</span>
-          </h2>
-          <p class="text-muted small mb-0 text-truncate">
-            <i class="fas fa-flask me-1"></i> DCI :
-            <span class="fw-medium text-secondary">{{ medData.nom_generique }}</span>
-          </p>
-        </div>
-        <div v-else class="w-100" style="min-width: 250px">
-          <MedSkeleton height="24px" width="60%" class="mb-1" />
-          <MedSkeleton height="14px" width="40%" />
+          <div v-if="!isLoading && medData" class="min-w-0 w-100">
+            <h2 class="h3 mb-1 fw-bold text-dark font-title text-truncate">
+              {{ medData.nom }}
+              <span class="text-muted fw-normal fs-5">({{ medData.dosage }})</span>
+            </h2>
+            <p class="text-muted small mb-0 text-truncate">
+              <i class="fas fa-flask me-1"></i> DCI :
+              <span class="fw-medium text-secondary">{{ medData.nom_generique }}</span>
+            </p>
+          </div>
+          <div v-else class="w-100" style="min-width: 250px">
+            <MedSkeleton height="24px" width="60%" class="mb-1" />
+            <MedSkeleton height="14px" width="40%" />
+          </div>
         </div>
       </div>
 
+      <!-- DEUXIÈME PARTIE : Boutons d'action -->
+      <!-- Prend toute la largeur sur mobile, et uniquement sa propre largeur (auto) sur grand écran -->
       <div
         v-if="!isLoading && medData"
-        class="d-flex align-items-center gap-2 flex-shrink-0 w-100 w-md-auto justify-content-end"
+        class="col-12 col-md-auto d-flex align-items-center gap-2 justify-content-start justify-content-md-end"
       >
         <MedButton variant="outline-secondary" icon="pi pi-pencil" size="sm" @click="handleEdit">
           Éditer la fiche
