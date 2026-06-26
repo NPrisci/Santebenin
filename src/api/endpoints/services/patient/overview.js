@@ -108,9 +108,6 @@ export const PatientOverviewService = {
 
   constantes: async (data) => {
     try {
-      if (!OverviewUtils.checkData()) {
-        return { errors: "Veuillez renseigner au moins une constante" };
-      }
       const response = await api("/patient/dashboard/constantes", {
         method: "POST",
         body: JSON.stringify(data),
@@ -121,7 +118,7 @@ export const PatientOverviewService = {
         data: response.data,
       };
     } catch (error) {
-      console.warn("UNe erreur est survenue lors de la soumission de la requete");
+      throw error;
     }
   },
 };
@@ -130,21 +127,39 @@ const OverviewUtils = {
   formatAnnonceData(data) {
     const conseil = data.conseil_ia;
 
-    //La premiere annonce est considere comme principale, les autres sont des annonces
+    const defaultCategories = [
+      { label: "Alerte Sanitaire", value: "alerte" },
+      { label: "Information Générale", value: "info" },
+      { label: "Protocole", value: "protocole" },
+      { label: "Événement", value: "evenement" },
+    ];
+
+    // Fonction utilitaire pour formater une catégorie
+    const formatCategorie = (categorieValue) => {
+      const found = defaultCategories.find((cat) => cat.value === categorieValue);
+      return (
+        found?.label ||
+        defaultCategories.find((cat) => cat.value === "info")?.label ||
+        defaultCategories[0].label
+      );
+    };
+
+    // La première annonce est considérée comme principale, les autres sont des annonces
     const mainAnnonce = {
       id: data.annonces[0].id,
       title: data.annonces[0].titre,
       description: data.annonces[0].description,
       imageUrl: data.annonces[0].image_couverture_url,
-      categorie: data.annonces[0].categorie,
+      categorie: formatCategorie(data.annonces[0].categorie),
     };
+
     const autresAnnonces = data.annonces.slice(1).map((a) => {
       return {
         id: a.id,
         title: a.titre,
         content: a.description,
         imageUrl: a.image_couverture_url,
-        categorie: a.categorie,
+        categorie: formatCategorie(a.categorie),
       };
     });
 

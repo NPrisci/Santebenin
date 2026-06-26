@@ -2,7 +2,12 @@
 import { ref, computed, onMounted } from "vue";
 import { PatientOverviewService } from "@/api/endpoints/services/patient/overview";
 import MedQrCode from "@/components/common/MedQrCode.vue";
+import MedGraph from "@/components/common/MedGraph.vue";
+import MedEmptyState from "@/components/common/MedEmptyState.vue";
+import MedPatientConstantesModal from "@/components/services/patients/MedPatientConstantesModal.vue";
+import { encryptService } from "@/api/endpoints/encrypt";
 import { useUiStore } from "@/router/ui";
+import router from "@/router";
 
 // --- ÉTATS DES DONNÉES (Provenant d'overview.js) ---
 const informations = ref(null);
@@ -18,6 +23,7 @@ const isLoading = ref(true);
 const qrToken = ref("");
 const isQrLoading = ref(false);
 const activeGraphTab = ref("poids"); // 'poids' ou 'tension'
+const isConstantesModalOpen = ref(false);
 
 // --- INDEX DE NAVIGATION CHRONOLOGIQUE DES CONSTANTES ---
 // L'index 0 correspond au relevé le plus récent (trié par l'API)
@@ -59,9 +65,10 @@ const handleRefreshQr = async () => {
   isQrLoading.value = true;
   try {
     const response = await PatientOverviewService.gettoken();
-    if (response && response.data) {
-      qrToken.value = response.data; // Affectation du token au composant MedQrCode
+    if (response) {
+      qrToken.value = response;
     }
+    // eslint-disable-next-line no-unused-vars
   } catch (error) {
     console.warn("Impossible de régénérer le token d'urgence");
   } finally {
@@ -79,6 +86,23 @@ const activeRecord = computed(() => {
   return vitalSigns.value.historique[activeHistoryIndex.value];
 });
 
+const hasRecordedConstantesToday = computed(() => {
+  const latest = vitalSigns.value?.historique?.[0]?.date;
+  if (!latest) return false;
+
+  const [datePart] = latest.split(" ");
+  const [day, month, year] = datePart.split("/").map(Number);
+  if (!day || !month || !year) return false;
+
+  const recordDate = new Date(year, month - 1, day);
+  const today = new Date();
+  return (
+    recordDate.getFullYear() === today.getFullYear() &&
+    recordDate.getMonth() === today.getMonth() &&
+    recordDate.getDate() === today.getDate()
+  );
+});
+
 // Fonctions de changement de date (Suivant / Précédent)
 const nextRecord = () => {
   if (activeHistoryIndex.value > 0) activeHistoryIndex.value--;
@@ -89,12 +113,70 @@ const prevRecord = () => {
   }
 };
 
+const formattedGraphData = computed(() => {
+  // Sécurité si les données ne sont pas encore chargées
+  const rawData = vitalSigns.value?.graphiques?.[activeGraphTab.value];
+  if (!rawData || !Array.isArray(rawData)) {
+    return { labels: [], datasets: [] };
+  }
+
+  // 1. Extraire les étiquettes communes (les dates)
+  const labels = rawData.map((item) => item.date);
+
+  // 2. Construire le(s) dataset(s) suivant l'onglet actif
+  if (activeGraphTab.value === "poids") {
+    return {
+      labels,
+      datasets: [
+        {
+          label: "Évolution du Poids (kg)",
+          data: rawData.map((item) => item.valeur),
+          borderColor: "#0284c7", // Couleur thématique principale
+          backgroundColor: "#0284c71a", // Remplissage translucide (Bootstrap/Medical)
+          tension: 0.4,
+        },
+      ],
+    };
+  } else if (activeGraphTab.value === "tension") {
+    return {
+      labels,
+      datasets: [
+        {
+          label: "Systolique (max)",
+          data: rawData.map((item) => item.systolique),
+          borderColor: "#ef4444", // Rouge danger / alerte doux
+          backgroundColor: "transparent",
+          tension: 0.4,
+        },
+        {
+          label: "Diastolique (min)",
+          data: rawData.map((item) => item.diastolique),
+          borderColor: "#3b82f6", // Bleu secondaire
+          backgroundColor: "transparent",
+          tension: 0.4,
+        },
+      ],
+    };
+  }
+
+  return { labels: [], datasets: [] };
+});
+
 // Détermination des couleurs de statut Bootstrap pour les widgets
 const getBadgeStatusClass = (status) => {
   if (status === "normal") return "bg-success-subtle text-success border-success-subtle";
   if (status === "warning") return "bg-warning-subtle text-warning border-warning-subtle";
   if (status === "danger") return "bg-danger-subtle text-danger border-danger-subtle";
   return "bg-light text-muted";
+};
+
+// Fonction de redirection
+const redirecttoArticle = async (id) => {
+  const redirectionId = await encryptService.encrypt(id);
+  router.push({
+    name: "patient-annonce-details",
+    params: { id: redirectionId },
+  });
 };
 
 onMounted(() => {
@@ -146,11 +228,11 @@ onMounted(() => {
             </div>
           </div>
 
-          <div class="col-12 col-md-4 border-start-md px-md-4">
-            <div class="d-flex align-items-center gap-2 mb-2">
+          <div class="col-12 col-md-4 border-start-md px-md-4 d-flex flex-column gap-3">
+            <div class="d-flex align-items-center gap-3">
               <div
-                class="badge bg-danger text-white rounded-circle fs-5 d-flex align-items-center justify-content-center"
-                style="width: 36px; height: 36px"
+                class="badge bg-danger text-white rounded-circle fs-4 d-flex align-items-center justify-content-center shadow-sm font-monospace"
+                style="width: 56px; height: 56px; min-width: 56px; letter-spacing: -1px"
               >
                 {{ medicalInfos?.group_sanguin || "?" }}
               </div>
@@ -158,30 +240,64 @@ onMounted(() => {
                 <div class="text-xxs text-uppercase tracking-wider text-muted fw-bold">
                   Groupe Sanguin
                 </div>
-                <div class="text-xs text-dark fw-medium">Information vitale d'urgence</div>
+                <div class="text-xs text-dark fw-semibold">Information vitale d'urgence</div>
               </div>
             </div>
-            <div class="mt-2">
-              <div class="text-xxs text-muted fw-bold text-uppercase mb-1">
-                Allergies déclarées :
+
+            <div class="med-medical-block">
+              <div
+                class="text-xxs text-muted fw-bold text-uppercase mb-1.5 d-flex align-items-center gap-1"
+              >
+                <i class="pi pi-exclamation-triangle text-danger text-xxs"></i> Allergies déclarées
+                :
               </div>
               <div class="d-flex flex-wrap gap-1" v-if="medicalInfos?.allergies?.length">
                 <span
                   v-for="(all, idx) in medicalInfos.allergies"
                   :key="idx"
-                  class="badge text-xxs bg-danger-subtle text-danger border border-danger-subtle rounded-sm"
+                  class="badge text-xxs bg-danger-subtle text-danger border border-danger-subtle rounded-sm px-2 py-1 fw-medium"
                 >
-                  {{ all.libelle }} ({{ all.severite }})
+                  {{ all.libelle }} &middot;
+                  <span class="opacity-75 text-lowercase">{{ all.severite }}</span>
                 </span>
               </div>
-              <span v-else class="text-xs text-muted fst-italic">Aucune allergie connue</span>
+              <span v-else class="text-xs text-muted fst-italic ps-1">Aucune allergie connue</span>
+            </div>
+
+            <div class="med-medical-block">
+              <div
+                class="text-xxs text-muted fw-bold text-uppercase mb-1.5 d-flex align-items-center gap-1"
+              >
+                <i class="pi pi-paperclip text-info text-xxs"></i> Antécédents notables :
+              </div>
+              <div class="d-flex flex-wrap gap-1" v-if="medicalInfos?.antecedents?.length">
+                <span
+                  v-for="(ant, idx) in medicalInfos.antecedents"
+                  :key="idx"
+                  class="badge text-xxs border rounded-sm px-2 py-1 fw-medium d-inline-flex align-items-center gap-1"
+                  :class="
+                    ant.est_familiale
+                      ? 'bg-purple-subtle text-purple border-purple-subtle'
+                      : 'bg-light text-secondary border-light-subtle'
+                  "
+                >
+                  <i v-if="ant.est_familiale" class="pi pi-users text-xxs opacity-75"></i>
+                  {{ ant.maladie }}
+                  <span v-if="ant.est_familiale" class="opacity-75 fw-normal text-xxs ps-0-5">
+                    ({{ ant.lien_parente }})
+                  </span>
+                </span>
+              </div>
+              <span v-else class="text-xs text-muted fst-italic ps-1"
+                >Aucun antécédent renseigné</span
+              >
             </div>
           </div>
 
           <div
             class="col-12 col-md-3 d-flex flex-column align-items-center justify-content-md-end text-center"
           >
-            <MedQrCode :value="qrToken" :loading="isQrLoading"/>
+            <MedQrCode :value="qrToken" :loading="isQrLoading" />
             <button
               @click="handleRefreshQr"
               class="btn btn-link text-xs text-primary mt-2 p-0 decoration-none d-flex align-items-center gap-1"
@@ -311,10 +427,14 @@ onMounted(() => {
               </div>
             </div>
 
-            <div v-else class="text-center py-4 border border-dashed rounded bg-light-subtle">
-              <p class="text-xs text-muted mb-0">
-                Aucun enregistrement disponible de vos constantes.
-              </p>
+            <div v-else>
+              <MedEmptyState
+                icon="pi pi-exclamation-circle"
+                size="sm"
+                title="Historique indisponible"
+                description="Aucun enregistrement chronologique de vos constantes médicales n'a été trouvé."
+                :bordered="true"
+              />
             </div>
           </div>
 
@@ -349,11 +469,22 @@ onMounted(() => {
               </div>
             </div>
 
-            <div class="w-100">
+            <div class="w-100" v-if="formattedGraphData.labels.length > 0">
               <MedGraph
-                :type="activeGraphTab"
-                :data="vitalSigns?.graphiques ? vitalSigns.graphiques[activeGraphTab] : []"
+                :type="'line'"
+                :data="formattedGraphData"
                 :height="260"
+                :showLegend="true"
+                :theme="'medical'"
+              />
+            </div>
+            <div v-else>
+              <MedEmptyState
+                icon="pi pi-exclamation-circle"
+                size="sm"
+                title="Historique indisponible"
+                description="Aucune donnée historique suffisante pour générer le graphique."
+                :bordered="true"
               />
             </div>
           </div>
@@ -378,7 +509,7 @@ onMounted(() => {
                 <div class="col-md-8 p-4 d-flex flex-column justify-content-between">
                   <div>
                     <span
-                      class="badge bg-danger-subtle text-danger text-xxs mb-2 border border-danger-subtle rounded-sm"
+                      class="badge bg-info-subtle text-info text-xxs mb-2 border border-info-subtle rounded-sm"
                     >
                       {{ annonces.mainAnnonce.categorie }}
                     </span>
@@ -391,6 +522,7 @@ onMounted(() => {
                   </div>
                   <button
                     class="btn btn-link text-primary text-xs text-start p-0 decoration-none fw-medium mt-2"
+                    @click="redirecttoArticle(annonces.mainAnnonce.id)"
                   >
                     Lire l'article complet <i class="pi pi-arrow-right ms-1 text-xxs"></i>
                   </button>
@@ -421,7 +553,11 @@ onMounted(() => {
                     </p>
                   </div>
                   <div class="border-top mt-3 pt-2 text-start">
-                    <span class="text-primary text-xs cursor-pointer fw-medium">Consulter</span>
+                    <span
+                      class="text-primary text-xs cursor-pointer fw-medium"
+                      @click="redirecttoArticle(annonce.id)"
+                      >Consulter</span
+                    >
                   </div>
                 </div>
               </div>
@@ -441,9 +577,19 @@ onMounted(() => {
             <p class="text-xs text-muted mb-3 px-2 lh-base">
               Renseignez vos constantes du jour pour alimenter votre courbe d'analyse de santé.
             </p>
-            <button class="btn btn-secondary w-100 text-xs py-2 fw-semibold rounded shadow-xs">
-              <i class="pi pi-plus me-1 text-xxs"></i> Enregistrer mes constantes
-            </button>
+            <template v-if="!hasRecordedConstantesToday">
+              <button
+                class="btn btn-secondary w-100 text-xs py-2 fw-semibold rounded shadow-xs"
+                @click="isConstantesModalOpen = true"
+              >
+                <i class="pi pi-plus me-1 text-xxs"></i> Enregistrer mes constantes
+              </button>
+            </template>
+            <template v-else>
+              <div class="text-xs text-muted fw-semibold">
+                Vous avez déjà enregistré vos constantes aujourd'hui.
+              </div>
+            </template>
           </div>
 
           <div class="card border-0 shadow-sm p-4 mb-4 bg-white rounded-lg">
@@ -481,9 +627,14 @@ onMounted(() => {
               </div>
             </div>
 
-            <div v-else class="text-center py-4 border border-dashed rounded bg-light-subtle">
-              <i class="pi pi-calendar text-muted fs-4 mb-2 d-block"></i>
-              <p class="text-xs text-muted mb-0">Aucun rendez-vous planifié</p>
+            <div v-else>
+              <MedEmptyState
+                icon="pi pi-calendar"
+                size="sm"
+                title="Aucun rendez-vous"
+                description="Vous n'avez aucun rendez-vous planifié pour le moment."
+                :bordered="false"
+              />
             </div>
           </div>
 
@@ -556,6 +707,11 @@ onMounted(() => {
         </div>
       </div>
     </div>
+    <MedPatientConstantesModal
+      v-model="isConstantesModalOpen"
+      :lastRecord="vitalSigns.historique[0]"
+      @success="fetchDashboardData"
+    />
   </div>
 </template>
 
@@ -607,6 +763,29 @@ onMounted(() => {
 }
 .text-secondary-dark {
   color: var(--medical-secondary-dark, #0f766e) !important;
+}
+
+.mb-1\.5 {
+  margin-bottom: 0.35rem !important;
+}
+
+.ps-0-5 {
+  padding-left: 0.15rem !important;
+}
+
+/* Thémantisation douce pour l'antécédent familial */
+.bg-purple-subtle {
+  background-color: #f5f3ff !important;
+}
+.text-purple {
+  color: #6d28d9 !important;
+}
+.border-purple-subtle {
+  border-color: #ddd6fe !important;
+}
+
+.med-medical-block {
+  min-height: 42px; /* Assure une régularité de hauteur si la liste est vide */
 }
 
 /* Micro utilitaires typographiques */
