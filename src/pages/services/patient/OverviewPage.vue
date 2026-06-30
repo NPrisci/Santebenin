@@ -459,7 +459,7 @@
           <div class="card border-0 shadow-sm p-4 bg-white rounded-lg">
             <div class="d-flex justify-content-between align-items-center mb-2">
               <h5 class="mb-3 text-dark fw-bold text-title text-md">Réseau de Confiance</h5>
-              <button type="button" @click="$router.push('/')"
+              <button type="button" @click="$router.push('/parametres')"
                 class="btn btn-sm btn-light border text-xxs py-1 px-2 rounded d-flex align-items-center gap-1 text-primary fw-semibold">
                 <i class="bi bi-plus-lg"></i> Ajouter
               </button>
