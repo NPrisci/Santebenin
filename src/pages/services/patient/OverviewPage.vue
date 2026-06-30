@@ -392,10 +392,12 @@
               <MedSkeleton type="text" width="80%" class="mx-auto" />
             </div>
             <template v-else>
-              <div
-                class="badge bg-secondary text-white rounded-circle fs-4 mb-2 d-inline-flex align-items-center justify-content-center"
-                style="width: 44px; height: 44px">
-                <i class="pi pi-heart"></i>
+              <div class="d-flex justify-content-center align-items-center">
+                <div
+                  class="badge bg-secondary text-white rounded-circle fs-4 mb-2 d-inline-flex align-items-center justify-content-center"
+                  style="width: 44px; height: 44px">
+                  <i class="pi pi-heart"></i>
+                </div>
               </div>
               <h6 class="fw-bold text-secondary-dark text-base mb-1">Prenez soin de vous</h6>
               <p class="text-xs text-muted mb-3 px-2 lh-base">
@@ -436,7 +438,7 @@
                   <span class="fs-5 fw-bold font-monospace text-dark lh-1">{{ rdv.date }}</span>
                   <span class="text-xxs text-uppercase text-muted fw-semibold" style="font-size: 0.6rem !important">{{
                     rdv.month
-                    }}</span>
+                  }}</span>
                 </div>
                 <div class="flex-grow-1">
                   <div class="d-flex align-items-center justify-content-between mb-0-5">

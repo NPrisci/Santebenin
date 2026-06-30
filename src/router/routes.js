@@ -66,12 +66,18 @@ export const routes = [
     path: "/p",
     name: "patient-service",
     component: MainLayout,
-    meta: { requiresAuth: true, waitForData: true, zone: "main" },
+    meta: { requiresAuth: true, zone: "main" },
     children: [
       {
         path: "espace",
         name: "patient-space",
         component: () => import("@/pages/services/patient/OverviewPage.vue"),
+        meta: { waitForData: true }
+      },
+      {
+        path: "espace",
+        name: "patient-carnet",
+        component: () => import("@/pages/services/patient/CarnetPage.vue"),
       },
     ],
   },

@@ -20,9 +20,9 @@ export function useLayout() {
    // Message de bienvenue dynamique selon l'heure
    const welcomeMessage = computed(() => {
       const hour = new Date().getHours()
-      if (hour < 12) return 'Bon début de journée ! ☀️'
-      if (hour < 18) return 'Bonne après-midi ! 🌤️'
-      return 'Bonne soirée ! 🌙'
+      if (hour < 12) return 'Bon début de journée !'
+      if (hour < 18) return 'Bonne après-midi !'
+      return 'Bonne soirée !'
    })
 
    // Liste des notifications
