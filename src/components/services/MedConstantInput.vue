@@ -300,13 +300,13 @@ const handleSliderChange = (e) => {
 // Dual Slider (tension)
 const handleSystolicChange = (e) => {
   const val = { ...internalValue.value };
-  val.systolic = parseInt(e.target.value);
+  val.systolique = parseInt(e.target.value);
   updateValue(val);
 };
 
 const handleDiastolicChange = (e) => {
   const val = { ...internalValue.value };
-  val.diastolic = parseInt(e.target.value);
+  val.diastolique = parseInt(e.target.value);
   updateValue(val);
 };
 
@@ -380,7 +380,7 @@ watch(
 // Format affichage
 const formatValue = computed(() => {
   if (config.value.dual && internalValue.value) {
-    return `${internalValue.value.systolic}/${internalValue.value.diastolic}`;
+    return `${internalValue.value.systolique}/${internalValue.value.diastolique}`;
   }
   if (internalValue.value || internalValue.value === 0) {
     return config.value.format(internalValue.value);

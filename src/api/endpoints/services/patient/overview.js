@@ -80,8 +80,8 @@ export const PatientOverviewService = {
   appointmentsData: async () => {
     try {
       const response = await api("/patient/dashboard/prochain-rdv");
-      const data = response.data; // Format attendu si rdv existant ou tableau vide
-      if (!data || Array.isArray(data)) return []; // Si aucun RDV, l'API renvoie data: []
+      const data = response.data; 
+      if (!data || Array.isArray(data)) return [];
       return OverviewUtils.formatAppointmentsData(data);
     } catch (error) {
       console.warn("Échec API appointmentsData", error);
@@ -190,6 +190,13 @@ const OverviewUtils = {
     const historique = this.sortHistoriqueByDate(historiqueRaw).map((record) => {
       // Extraction adaptative puisque les clés sont maintenant encapsulées dans un objet .mesures
       const m = record.mesures || {};
+      
+      // Extraction des valeurs pour éviter les répétitions
+      const systolique = m.tension?.systolique || null;
+      const glycemieVal = m.glycemie?.valeur || null;
+      const tempVal = m.temperature?.valeur || null;
+      const poulsVal = m.pouls?.valeur || null;
+  
       return {
         id: record.id,
         source: record.source,
@@ -197,18 +204,26 @@ const OverviewUtils = {
         tension_arterielle: m.tension?.valeur || null,
         poids: m.poids?.valeur || null,
         taille: m.taille?.valeur || null,
-        tension_systolique: m.tension?.systolique || null,
+        tension_systolique: systolique,
         tension_diastolique: m.tension?.diastolique || null,
-        glycemie: m.glycemie?.valeur || null,
-        temperature: m.temperature?.valeur || null,
-        pouls: m.pouls?.valeur || null,
+        glycemie: glycemieVal,
+        temperature: tempVal,
+        pouls: poulsVal,
         saturation_oxygene: m.oxygene?.valeur || null,
         statut_global: record.statut_global,
+        
+        // CORRECTION CRITIQUE : Ajout de l'objet statuts pour chaque ligne de l'historique
+        statuts: {
+          tension_systolique: systolique == null ? null : this.determineStatus(systolique, [110, 130], [90, 140]),
+          glycemie: glycemieVal == null ? null : this.determineStatus(glycemieVal, [0.7, 1.1], [0.5, 1.25]),
+          temperature: tempVal == null ? null : this.determineStatus(tempVal, [36.5, 37.5], [35, 38.5]),
+          pouls: poulsVal == null ? null : this.determineStatus(poulsVal, [60, 100], [50, 120]),
+        }
       };
     });
-
+  
     const latest = historique[0] || {};
-
+  
     return {
       historique,
       graphiques: this.buildGraphData(data, historique),

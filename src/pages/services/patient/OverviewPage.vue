@@ -98,6 +98,7 @@
               <div class="d-flex flex-wrap gap-1" v-if="medicalInfos?.antecedents?.length">
                 <span v-for="(ant, idx) in medicalInfos.antecedents" :key="idx"
                   class="badge text-xxs border rounded-sm px-2 py-1 fw-medium d-inline-flex flex-column align-items-start gap-0.5 bg-light text-secondary border-light-subtle">
+                  {{ ant.maladie }}
                 </span>
               </div>
               <span v-else class="text-xs text-muted fst-italic ps-1">Aucun antécédent renseigné</span>
@@ -583,7 +584,10 @@
       if (appRes) appointments.value = appRes;
       if (trustRes) trusts.value = trustRes;
 
-      await handleRefreshQr();
+      const response = await PatientOverviewService.gettoken();
+      if (response) {
+        qrToken.value = response;
+      }
     } catch (error) {
       console.error("Erreur globale lors de la récupération du dashboard :", error);
     } finally {
@@ -596,7 +600,7 @@
   const handleRefreshQr = async () => {
     isQrLoading.value = true;
     try {
-      const response = await PatientOverviewService.gettoken();
+      const response = await PatientOverviewService.regenerateToken();
       if (response) {
         qrToken.value = response;
       }
@@ -605,7 +609,7 @@
     } finally {
       isQrLoading.value = false;
     }
-  };
+  }
 
   // --- CALCULATEURS DYNAMIQUES POUR LA NAVIGATION TEMPORELLE ---
   const hasHistory = computed(() => vitalSigns.value?.historique?.length > 0);
