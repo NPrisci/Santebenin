@@ -11,23 +11,41 @@ const ProfilInitialisation = {
       return response.checking
    },
 
+   // 1. Adaptation au nouveau format de retour (listes de choix)
    async init() {
       const response = await api('/profil/init')
       return {
-         groupeSanguin: response.groupe_sanguin,
-         allergies: response.possible_allergies,
-         antecedants: response.possible_maladies_chroniques,
-         niveauSeverite: response.possible_severity
+         groupesSanguins: response.groups || [],
+         maladiesDisponibles: response.maladies || [],
+         medicamentsDisponibles: response.medicaments || []
       }
    },
 
+   // 2. Formatage des données selon le payload attendu par la nouvelle API Laravel
    async save(data) {
       const response = await api('/profil/save', {
          method: 'POST',
          body: {
-            groupe_sanguin: data.groupeSanguin,
-            allergies: data.allergies,
-            antecedents: data.antecedants
+            groupe: data.groupeSanguin,
+            antecedents: data.antecedents.map(antecedent => {
+               const formattedAntecedent = {
+                  designation: antecedent.designation,
+                  type: antecedent.type,
+                  date_debut: antecedent.dateDebut || null,
+                  notes: antecedent.notes || null
+               }
+
+               // Ajout conditionnel des UUIDs si présents
+               if (antecedent.type === 'maladie' && antecedent.maladieId) {
+                  formattedAntecedent.maladie_id = antecedent.maladieId
+               }
+               
+               if (antecedent.type === 'medicament' && antecedent.medicamentId) {
+                  formattedAntecedent.medicament_id = antecedent.medicamentId
+               }
+
+               return formattedAntecedent
+            })
          }
       })
       return response
