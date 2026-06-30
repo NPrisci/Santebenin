@@ -21,8 +21,8 @@ onMounted(() => {
   // Premier appel
   callApi();
   
-  // Intervalle toutes les 30s
-  intervalId = setInterval(callApi, 30000);
+  // Intervalle toutes les 2m
+  intervalId = setInterval(callApi, 120000);
 });
 
 onUnmounted(() => {

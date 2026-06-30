@@ -1,11 +1,13 @@
 import { api } from "@/api/clients/main";
-import { formatDate, splitDate } from "@/api/clients/help";
+import { splitDate } from "@/api/clients/help";
 
 export const PatientOverviewService = {
+  // GET /api/v1/user/baseinfos
   informations: async () => {
     try {
       const response = await api("/user/baseinfos");
-      const data = response.data;
+      const data = response.data; // Prise en compte du double emballage "data.data"
+      if (!data) return null;
       return {
         nom: data.nom,
         photo: data.photo,
@@ -16,46 +18,52 @@ export const PatientOverviewService = {
         email: data.email,
       };
     } catch (error) {
-      console.warn("Échec API informations, fallback activé", error);
+      console.warn("Échec API informations", error);
       return null;
     }
   },
 
+  // GET /api/v1/patient/dashboard/urgences
   medicalInfos: async () => {
     try {
       const response = await api("/patient/dashboard/urgences");
+      const data = response.data;
+      if (!data) return null;
       return {
-        group_sanguin: response.data.groupe_sanguin,
-        allergies: response.data.allergies.map((a) => ({
-          libelle: a.libelle,
-          type_allergie: a.type_allergie,
-          severite: a.severite,
+        group_sanguin: data.patient?.groupe_sanguin || "Inconnu",
+        allergies: (data.antecedants?.allergies || []).map((a) => ({
+          id: a.antecedant_id,
+          libelle: a.designation,
+          type_allergie: a.type,
+          severite: a.notes, // Utilisation de notes ou fallback selon le besoin
         })),
-        antecedents: response.data.antecedents.map((a) => ({
-          maladie: a.maladie.nom,
-          lien_parente: a.lien_parente,
-          est_familiale: a.est_familiale,
+        antecedents: (data.antecedants?.maladies || []).map((m) => ({
+          id: m.antecedant_id,
+          maladie: m.designation,
+          code: m.maladie?.code,
+          date_debut: m.date_debut,
         })),
       };
     } catch (error) {
-      console.warn("Échec API medicalInfos, fallback activé", error);
+      console.warn("Échec API medicalInfos", error);
       return null;
     }
   },
 
+  // GET /api/v1/patient/dashboard/prevention
   annoncesData: async () => {
     try {
       const response = await api("/patient/dashboard/prevention");
       const data = response.data;
-      if (!data || data.annonces.length === 0)
-        return { conseil: data?.conseil_ia || "", mainAnnonce: null, autresAnnonces: [] };
+      if (!data) return { conseil: "", mainAnnonce: null, autresAnnonces: [] };
       return OverviewUtils.formatAnnonceData(data);
     } catch (error) {
-      console.warn("Échec API annoncesData, fallback activé", error);
+      console.warn("Échec API annoncesData", error);
       return null;
     }
   },
 
+  // GET /api/v1/patient/dashboard/constantes
   vitalSignData: async () => {
     try {
       const response = await api("/patient/dashboard/constantes");
@@ -63,59 +71,71 @@ export const PatientOverviewService = {
       if (!data) throw new Error("No data");
       return OverviewUtils.formatVitalSignData(data);
     } catch (error) {
-      console.warn("Échec API vitalSignData, fallback activé", error);
+      console.warn("Échec API vitalSignData", error);
       return null;
     }
   },
 
+  // GET /api/v1/patient/dashboard/prochain-rdv
   appointmentsData: async () => {
     try {
       const response = await api("/patient/dashboard/prochain-rdv");
-      const data = response.data;
-      if (!data) return [];
+      const data = response.data; // Format attendu si rdv existant ou tableau vide
+      if (!data || Array.isArray(data)) return []; // Si aucun RDV, l'API renvoie data: []
       return OverviewUtils.formatAppointmentsData(data);
     } catch (error) {
-      console.warn("Échec API appointmentsData, fallback activé", error);
+      console.warn("Échec API appointmentsData", error);
       return null;
     }
   },
 
+  // GET /api/v1/patient/dashboard/personne-confiance
   trustsData: async () => {
     try {
       const response = await api("/patient/dashboard/personne-confiance");
-      const data = response.data;
+      const data = response.data; // Extraction de l'arborescence "data.data"
       if (!data) throw new Error("No data");
       return OverviewUtils.formatTrustsData(data);
     } catch (error) {
-      console.warn("Échec API trustsData, fallback activé", error);
+      console.warn("Échec API trustsData", error);
       return null;
     }
   },
 
+  // GET /api/v1/patient/dashboard/urgences/token -> Récupère le token actuel
   gettoken: async () => {
+    try {
+      const response = await api("/patient/dashboard/urgences/token");
+      return response.token || null;
+    } catch (error) {
+      console.warn("Échec de récupération du token", error);
+      return null;
+    }
+  },
+
+  // POST /api/v1/patient/dashboard/urgences/token -> Régénère le token
+  regenerateToken: async () => {
     try {
       const response = await api("/patient/dashboard/urgences/token", {
         method: "POST",
       });
-      if (!response.success) throw new Error("No data");
-      const data = response.token;
-      return data;
+      return response.token || null;
     } catch (error) {
-      console.warn("Échec API token, fallback activé", error);
+      console.warn("Échec de régénération du token", error);
       return null;
     }
   },
 
-  constantes: async (data) => {
+  // POST /api/v1/patient/dashboard/constantes
+  constantes: async (payload) => {
     try {
       const response = await api("/patient/dashboard/constantes", {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
-      if (!response.success) throw new Error("No data");
       return {
-        mssage: response.message,
-        data: response.data,
+        message: response.message,
+        data: response.data?.data,
       };
     } catch (error) {
       throw error;
@@ -125,57 +145,67 @@ export const PatientOverviewService = {
 
 const OverviewUtils = {
   formatAnnonceData(data) {
-    const conseil = data.conseil_ia;
+    const conseil = data.conseil_ia || "";
+    const annonces = data.annonces || [];
+
+    if (annonces.length === 0) {
+      return { conseil, mainAnnonce: null, autresAnnonces: [] };
+    }
 
     const defaultCategories = [
       { label: "Alerte Sanitaire", value: "alerte" },
       { label: "Information Générale", value: "info" },
       { label: "Protocole", value: "protocole" },
       { label: "Événement", value: "evenement" },
+      { label: "Santé", value: "Santé" },
     ];
 
-    // Fonction utilitaire pour formater une catégorie
     const formatCategorie = (categorieValue) => {
-      const found = defaultCategories.find((cat) => cat.value === categorieValue);
-      return (
-        found?.label ||
-        defaultCategories.find((cat) => cat.value === "info")?.label ||
-        defaultCategories[0].label
-      );
+      const found = defaultCategories.find((cat) => cat.value.toLowerCase() === categorieValue?.toLowerCase());
+      return found ? found.label : "Santé Publique";
     };
 
-    // La première annonce est considérée comme principale, les autres sont des annonces
     const mainAnnonce = {
-      id: data.annonces[0].id,
-      title: data.annonces[0].titre,
-      description: data.annonces[0].description,
-      imageUrl: data.annonces[0].image_couverture_url,
-      categorie: formatCategorie(data.annonces[0].categorie),
+      id: annonces[0].id,
+      title: annonces[0].titre,
+      description: annonces[0].description,
+      imageUrl: annonces[0].image_couverture, // Correction du champ image selon ROUTE.md
+      categorie: formatCategorie(annonces[0].categorie),
     };
 
-    const autresAnnonces = data.annonces.slice(1).map((a) => {
-      return {
-        id: a.id,
-        title: a.titre,
-        content: a.description,
-        imageUrl: a.image_couverture_url,
-        categorie: formatCategorie(a.categorie),
-      };
-    });
+    const autresAnnonces = annonces.slice(1).map((a) => ({
+      id: a.id,
+      title: a.titre,
+      content: a.description,
+      imageUrl: a.image_couverture,
+      categorie: formatCategorie(a.categorie),
+    }));
 
-    return {
-      conseil,
-      mainAnnonce,
-      autresAnnonces,
-    };
+    return { conseil, mainAnnonce, autresAnnonces };
   },
 
   formatVitalSignData(data) {
-    const historique = Array.isArray(data.historique)
-      ? this.sortHistoriqueByDate(data.historique).map((record) =>
-          this.formatHistoriqueRecord(record),
-        )
-      : [];
+    const historiqueRaw = Array.isArray(data.historique) ? data.historique : [];
+    
+    const historique = this.sortHistoriqueByDate(historiqueRaw).map((record) => {
+      // Extraction adaptative puisque les clés sont maintenant encapsulées dans un objet .mesures
+      const m = record.mesures || {};
+      return {
+        id: record.id,
+        source: record.source,
+        date: record.date,
+        tension_arterielle: m.tension?.valeur || null,
+        poids: m.poids?.valeur || null,
+        taille: m.taille?.valeur || null,
+        tension_systolique: m.tension?.systolique || null,
+        tension_diastolique: m.tension?.diastolique || null,
+        glycemie: m.glycemie?.valeur || null,
+        temperature: m.temperature?.valeur || null,
+        pouls: m.pouls?.valeur || null,
+        saturation_oxygene: m.oxygene?.valeur || null,
+        statut_global: record.statut_global,
+      };
+    });
 
     const latest = historique[0] || {};
 
@@ -183,190 +213,95 @@ const OverviewUtils = {
       historique,
       graphiques: this.buildGraphData(data, historique),
       poids: {
-        value: latest.poids || null,
-        status:
-          latest.poids == null ? null : this.determineStatus(latest.poids, [60, 80], [50, 90]),
+        value: latest.poids,
+        status: latest.poids == null ? null : this.determineStatus(latest.poids, [60, 80], [50, 90]),
         unit: "kg",
-        normalRange: [60, 80],
-        warningRange: [50, 90],
       },
       taille: {
-        value: latest.taille == null ? null : this.convertFromCmToM(latest.taille),
+        value: latest.taille == null ? null : latest.taille / 100, // Conversion cm en m
         unit: "m",
         status: latest.taille == null ? null : "normal",
-        normalRange: [1.6, 1.8],
-        warningRange: [1.5, 1.9],
       },
       tension_arterielle: {
-        value: latest.tension_arterielle || this.buildTensionValue(latest),
+        value: latest.tension_arterielle,
         unit: "mmHg",
-        status:
-          latest.tension_systolique == null
-            ? null
-            : this.determineStatus(latest.tension_systolique, [60, 80], [50, 90]),
+        status: latest.tension_systolique == null ? null : this.determineStatus(latest.tension_systolique, [110, 130], [90, 140]),
       },
       glycemie: {
-        value: latest.glycemie || null,
-        status:
-          latest.glycemie == null
-            ? null
-            : this.determineStatus(latest.glycemie, [0.7, 1.0], [0.5, 1.2]),
+        value: latest.glycemie,
+        status: latest.glycemie == null ? null : this.determineStatus(latest.glycemie, [0.7, 1.1], [0.5, 1.25]),
         unit: "g/L",
       },
       temperature: {
-        value: latest.temperature || null,
-        status:
-          latest.temperature == null
-            ? null
-            : this.determineStatus(latest.temperature, [36, 37.5], [35, 38]),
+        value: latest.temperature,
+        status: latest.temperature == null ? null : this.determineStatus(latest.temperature, [36.5, 37.5], [35, 38.5]),
         unit: "°C",
       },
       pouls: {
-        value: latest.pouls || null,
-        status:
-          latest.pouls == null ? null : this.determineStatus(latest.pouls, [60, 100], [50, 120]),
+        value: latest.pouls,
+        status: latest.pouls == null ? null : this.determineStatus(latest.pouls, [60, 100], [50, 120]),
         unit: "bpm",
       },
       date: latest.date || null,
     };
   },
 
-  formatHistoriqueRecord(record) {
-    return {
-      id: record.id,
-      source: record.source,
-      date: record.date,
-      tension_arterielle: record.tension_arterielle || this.buildTensionValue(record),
-      poids: record.poids,
-      taille: record.taille,
-      tension_systolique: record.tension_systolique,
-      tension_diastolique: record.tension_diastolique,
-      glycemie: record.glycemie,
-      temperature: record.temperature,
-      pouls: record.pouls,
-      saturation_oxygene: record.saturation_oxygene,
-      statuts: record.statuts,
-      statut_global: record.statut_global,
-    };
-  },
-
   buildGraphData(data, historique) {
     const graphs = data.graphiques || {};
-
     return {
-      poids: Array.isArray(graphs.poids)
-        ? graphs.poids.map((item) => ({ date: item.date, valeur: item.valeur }))
-        : historique
-            .filter((item) => item.poids != null)
-            .map((item) => ({ date: item.date, valeur: item.poids })),
-      tension: Array.isArray(graphs.tension)
-        ? graphs.tension.map((item) => ({
-            date: item.date,
-            systolique: item.systolique,
-            diastolique: item.diastolique,
-          }))
-        : historique
-            .filter((item) => item.tension_systolique != null && item.tension_diastolique != null)
-            .map((item) => ({
-              date: item.date,
-              systolique: item.tension_systolique,
-              diastolique: item.tension_diastolique,
-            })),
-      glycemie: Array.isArray(graphs.glycemie)
-        ? graphs.glycemie.map((item) => ({ date: item.date, valeur: item.valeur }))
-        : historique
-            .filter((item) => item.glycemie != null)
-            .map((item) => ({ date: item.date, valeur: item.glycemie })),
-      temperature: Array.isArray(graphs.temperature)
-        ? graphs.temperature.map((item) => ({ date: item.date, valeur: item.valeur }))
-        : historique
-            .filter((item) => item.temperature != null)
-            .map((item) => ({ date: item.date, valeur: item.temperature })),
-      pouls: Array.isArray(graphs.pouls)
-        ? graphs.pouls.map((item) => ({ date: item.date, valeur: item.valeur }))
-        : historique
-            .filter((item) => item.pouls != null)
-            .map((item) => ({ date: item.date, valeur: item.pouls })),
+      poids: Array.isArray(graphs.poids) ? graphs.poids : historique.filter((i) => i.poids != null).map((i) => ({ date: i.date, valeur: i.poids })),
+      tension: Array.isArray(graphs.tension) ? graphs.tension : historique.filter((i) => i.tension_systolique != null).map((i) => ({ date: i.date, systolique: i.tension_systolique, diastolique: i.tension_diastolique })),
+      glycemie: Array.isArray(graphs.glycemie) ? graphs.glycemie : historique.filter((i) => i.glycemie != null).map((i) => ({ date: i.date, valeur: i.glycemie })),
+      temperature: Array.isArray(graphs.temperature) ? graphs.temperature : historique.filter((i) => i.temperature != null).map((i) => ({ date: i.date, valeur: i.temperature })),
+      pouls: Array.isArray(graphs.pouls) ? graphs.pouls : historique.filter((i) => i.pouls != null).map((i) => ({ date: i.date, valeur: i.pouls })),
     };
-  },
-
-  buildTensionValue(record) {
-    if (record.tension_systolique == null || record.tension_diastolique == null) {
-      return null;
-    }
-    return `${record.tension_systolique}/${record.tension_diastolique}`;
-  },
-
-  sortHistoriqueByDate(historique) {
-    return [...historique].sort((a, b) => {
-      const dateA = this.parseHistoricDate(a.date);
-      const dateB = this.parseHistoricDate(b.date);
-      if (!dateA || !dateB) return 0;
-      return dateB - dateA;
-    });
-  },
-
-  parseHistoricDate(dateStr) {
-    if (!dateStr) return null;
-    const [datePart, timePart = "00:00"] = dateStr.split(" ");
-    const [day, month, year] = datePart.split("/").map(Number);
-    if (!day || !month || !year) return null;
-    const [hours, minutes] = timePart.split(":").map(Number);
-    return new Date(year, month - 1, day, hours || 0, minutes || 0);
-  },
-
-  convertFromCmToM(cm) {
-    return cm / 100;
   },
 
   determineStatus(value, normalRange, warningRange) {
-    if (value >= normalRange[0] && value <= normalRange[1]) {
-      return "normal";
-    } else if (value >= warningRange[0] && value <= warningRange[1]) {
-      return "warning";
-    } else {
-      return "danger";
-    }
+    if (value >= normalRange[0] && value <= normalRange[1]) return "normal";
+    if (value >= warningRange[0] && value <= warningRange[1]) return "warning";
+    return "danger";
+  },
+
+  sortHistoriqueByDate(historique) {
+    return [...historique].sort((a, b) => new Date(b.date_raw || 0) - new Date(a.date_raw || 0)); // Plus performant avec date_raw ISO
   },
 
   formatAppointmentsData(data) {
-    data.map((a) => {
-      const [mois, jour] = splitDate(a.date_rdv);
-      return {
-        id: a.id,
-        date: jour,
-        month: mois,
-        time: a.heure,
-        doctorName: `Dr. ${a.medecin.nom}`,
-        speciality: a.medecin.specialite.nom,
-        establishment: a.structure_sante.nom,
-        notes: a.note,
-      };
-    });
+    if (!data || !data.date) return [];
+    // Découpage de la date (Ex: "2026-07-15 14:30:00")
+    const [datePart, timePart] = data.date.split(" ");
+    const [mois, jour] = splitDate(datePart); 
+
+    return [{
+      id: data.id,
+      date: jour,
+      month: mois,
+      time: timePart ? timePart.substring(0, 5) : "", // "14:30"
+      doctorName: `Dr. ${data.professionnel?.nom || ""} ${data.professionnel?.prenom || ""}`,
+      speciality: data.professionnel?.specialite?.nom || "Généraliste",
+      establishment: data.structure?.nom || "Non spécifié",
+      notes: "",
+    }];
   },
 
   formatTrustsData(data) {
-    const tutores = data.filter((t) => t.role === "tuteur");
-    const protegees = data.filter((p) => p.role === "protege");
+    // Les listes arrivent déjà segmentées de l'API (tutores et proteges)
     return {
-      tutores: tutores.map((t) => {
-        return {
-          id: t.id,
-          nom: t.nom,
-          relation: t.relation,
-          photo_url: t.photo_url,
-          status: t.status,
-        };
-      }),
-      protegees: protegees.map((p) => {
-        return {
-          id: p.id,
-          nom: p.nom,
-          relation: p.relation,
-          photo_url: p.photo_url,
-          status: p.status,
-        };
-      }),
+      tutores: (data.tutores || []).map((t) => ({
+        id: t.id,
+        nom: t.full_name || `${t.nom} ${t.prenom}`,
+        relation: t.relation_status,
+        photo_url: t.photo_url,
+        status: t.relation_status,
+      })),
+      protegees: (data.proteges || []).map((p) => ({
+        id: p.id,
+        nom: p.full_name || `${p.nom} ${p.prenom}`,
+        relation: p.relation_status,
+        photo_url: p.photo_url,
+        status: p.relation_status,
+      })),
     };
   },
 };
