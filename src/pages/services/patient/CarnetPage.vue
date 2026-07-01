@@ -375,7 +375,6 @@ const selectedEvent = ref(null);
 // --- ACQUISITION DES DONNÉES VIA CARNETSERVICE ---
 const fetchCarnetDashboard = async () => {
   isLoading.value = true;
-  ui.setMainLoading(true);
 
   try {
     const [profilRes, indicationsRes, alertesRes, timelineRes, traitementsRes] = await Promise.all([
@@ -402,7 +401,6 @@ const fetchCarnetDashboard = async () => {
     toast.warning(error.message)
   } finally {
     isLoading.value = false;
-    ui.setMainLoading(false);
   }
 };
 
