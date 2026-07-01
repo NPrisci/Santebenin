@@ -169,7 +169,7 @@ const OverviewUtils = {
       id: annonces[0].id,
       title: annonces[0].titre,
       description: annonces[0].description,
-      imageUrl: annonces[0].image_couverture, // Correction du champ image selon ROUTE.md
+      imageUrl: annonces[0].image_url,
       categorie: formatCategorie(annonces[0].categorie),
     };
 
@@ -177,7 +177,7 @@ const OverviewUtils = {
       id: a.id,
       title: a.titre,
       content: a.description,
-      imageUrl: a.image_couverture,
+      imageUrl: a.image_url,
       categorie: formatCategorie(a.categorie),
     }));
 

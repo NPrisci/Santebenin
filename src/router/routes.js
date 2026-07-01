@@ -75,7 +75,7 @@ export const routes = [
         meta: { waitForData: true }
       },
       {
-        path: "espace",
+        path: "carnet",
         name: "patient-carnet",
         component: () => import("@/pages/services/patient/CarnetPage.vue"),
       },
