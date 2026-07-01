@@ -202,7 +202,7 @@ const FormatCarnet = {
                 type: liste.type,
                 contenu: liste.contenu,
                 image: liste.image,
-                redirect_id: annonce_id
+                redirect_id: liste.annonce_id
             }
         })
     },
