@@ -45,7 +45,7 @@
             <div class="d-flex align-items-center gap-2 mb-2">
               <div
                 class="badge bg-danger text-white rounded-circle fs-4 d-flex align-items-center justify-content-center shadow-sm font-monospace"
-                style="width: 52px; height: 52px; min-width: 52px">
+                style="width: 64px; height: 64px; min-width: 52px">
                 {{ profile?.groupe_sanguin || "?" }}
               </div>
               <div class="text-start">
@@ -84,19 +84,19 @@
 
             <div v-else class="row g-3">
               <div class="col-6 col-md-3" v-for="(ind, key) in indications" :key="key">
-                <div class="border rounded p-3 text-center h-100 bg-white shadow-xs transition-base"
+                <div class="border rounded p-2 text-center h-100 bg-white shadow-xs transition-base"
                   :class="ind.classe_couleur">
                   <div class="d-flex justify-content-center mb-2">
                     <i :class="[ind.icone_pi ? ind.icone_pi : ind.icone_fa, 'fs-4 text-primary opacity-75']"></i>
                   </div>
                   <div class="text-muted text-xxs text-uppercase fw-semibold mb-1">{{ ind.titre }}</div>
-                  <div class="fs-4 fw-bold font-monospace text-dark mb-1">
+                  <div class="mb-1">
                     {{ ind.valeur_complete }}
                   </div>
                   <span class="badge text-xxs bg-white text-dark border px-2 py-0-5 rounded-pill fw-medium">
                     {{ ind.statut_label }}
                   </span>
-                  <div v-if="ind.date" class="text-xxs text-muted mt-2 opacity-50">
+                  <div v-if="ind.date" class="text-xxs text-muted mt-2">
                     Mise à jour : {{ ind.date }}
                   </div>
                 </div>
@@ -152,7 +152,7 @@
             </div>
           </div>
 
-          <div class="card border-0 shadow-sm p-4 bg-white rounded-lg mb-4">
+          <div class="card border-0 shadow-sm p-4 rounded-lg mb-4">
             <div class="mb-3">
               <h5 class="mb-1 text-dark fw-bold text-title text-md">
                 <i class="pi pi-history text-primary me-2"></i>Parcours Chronologique & Événements
@@ -533,9 +533,10 @@
 
   .text-truncate-3 {
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 10;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-align: justify;
   }
 
   .whitespace-pre-wrap {
@@ -606,6 +607,6 @@
   }
 
   :deep(.med-timeline__marker-wrap::before) {
-  width: 5px;
-}
+    width: 5px;
+  }
 </style>

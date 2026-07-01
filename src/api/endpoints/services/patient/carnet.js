@@ -164,7 +164,7 @@ const FormatCarnet = {
 
                 // Données de date et heure extraites
                 date_affichage: datetimeFormate.date,   // "05 Juillet 2026"
-                heure_affichage: datetimeFormate.heure, // "14:30"
+                heure_affichage: datetimeFormate.time, // "14:30"
 
                 // Informations du professionnel de santé
                 medecin: {
@@ -211,10 +211,8 @@ const FormatCarnet = {
         if (!data) return null;
 
         const timelines = Array.isArray(data) ? data : [data];
-
         return timelines.map((line) => {
             const datetimeFormate = line.date_evenement ? formatDateTime(line.date_evenement) : { date: '--', heure: '--' };
-            console.log(datetimeFormate)
 
             // Construction dynamique du résumé textuel selon les clés présentes
             let texteResume = '--';
@@ -233,14 +231,15 @@ const FormatCarnet = {
             return {
                 id: line.id,
                 type: line.type,
-                date: `Le ${datetimeFormate.date} à ${datetimeFormate.heure}`,
+                date: `Le ${datetimeFormate.date} à ${datetimeFormate.time}`,
                 responsable: line.responsable ? {
                     id: line.responsable.id,
                     nom: line.responsable.nom ? `Dr ${line.responsable.nom}` : 'Non spécifié',
                     photo: line.responsable.photo || null
                 } : null,
                 structure: line.structure?.nom ?? 'Aucune structure médicale affectée',
-                resume: texteResume
+                resume: texteResume,
+                photo: line.responsable.photo || null
             };
         });
     },
