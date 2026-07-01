@@ -214,6 +214,7 @@ const FormatCarnet = {
 
         return timelines.map((line) => {
             const datetimeFormate = line.date_evenement ? formatDateTime(line.date_evenement) : { date: '--', heure: '--' };
+            console.log(datetimeFormate)
 
             // Construction dynamique du résumé textuel selon les clés présentes
             let texteResume = '--';

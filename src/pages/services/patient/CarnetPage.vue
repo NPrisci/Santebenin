@@ -3,7 +3,7 @@
 
     <div class="fade-in">
       <div class="card border-0 shadow-sm p-4 mb-4 bg-white rounded-lg position-relative overflow-hidden">
-        
+
         <div v-if="isLoading" class="row align-items-center g-3">
           <div class="col-12 col-md-8 d-flex align-items-center gap-3">
             <MedSkeleton type="circle" size="85px" />
@@ -19,7 +19,7 @@
         </div>
 
         <div v-else class="row align-items-center g-3">
-          <div class="col-12 col-md-8 d-flex align-items-center gap-3">
+          <div class="col-12 col-md-6 d-flex align-items-center gap-3">
             <div class="position-relative">
               <img :src="profile?.photo || '/assets/images/default-avatar.png'"
                 class="rounded-circle border border-2 border-white shadow-sm object-fit-cover"
@@ -36,14 +36,15 @@
                 NPI : <span class="fw-semibold text-secondary">{{ profile?.npi || "Non renseigné" }}</span>
               </p>
               <p class="text-xs text-muted mb-0">
-                {{ profile?.age }} ans &middot; Sexe : {{ profile?.sexe }} &middot; Né(e) le {{ profile?.naissance }}
+                {{ profile?.age }} ans &middot; {{ profile?.sexe }} &middot; Né(e) le {{ profile?.naissance }}
               </p>
             </div>
           </div>
 
-          <div class="col-12 col-md-4 d-flex flex-column align-items-md-end justify-content-center">
+          <div class="col-12 col-md-6 d-flex flex-column justify-content-center">
             <div class="d-flex align-items-center gap-2 mb-2">
-              <div class="badge bg-danger text-white rounded-circle fs-4 d-flex align-items-center justify-content-center shadow-sm font-monospace"
+              <div
+                class="badge bg-danger text-white rounded-circle fs-4 d-flex align-items-center justify-content-center shadow-sm font-monospace"
                 style="width: 52px; height: 52px; min-width: 52px">
                 {{ profile?.groupe_sanguin || "?" }}
               </div>
@@ -61,9 +62,9 @@
       </div>
 
       <div class="row g-4">
-        
+
         <div class="col-12 col-lg-8">
-          
+
           <div class="card border-0 shadow-sm p-4 mb-4 bg-white rounded-lg">
             <div class="mb-3">
               <h5 class="mb-1 text-dark fw-bold text-title text-md">
@@ -83,7 +84,8 @@
 
             <div v-else class="row g-3">
               <div class="col-6 col-md-3" v-for="(ind, key) in indications" :key="key">
-                <div class="border rounded p-3 text-center h-100 bg-white shadow-xs transition-base" :class="ind.classe_couleur">
+                <div class="border rounded p-3 text-center h-100 bg-white shadow-xs transition-base"
+                  :class="ind.classe_couleur">
                   <div class="d-flex justify-content-center mb-2">
                     <i :class="[ind.icone_pi ? ind.icone_pi : ind.icone_fa, 'fs-4 text-primary opacity-75']"></i>
                   </div>
@@ -127,7 +129,8 @@
                         <i class="pi pi-info-circle text-xxs me-1 text-info"></i>{{ trait.instructions }}
                       </p>
                     </div>
-                    <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle text-xxs px-2 py-1 rounded-sm">
+                    <span
+                      class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle text-xxs px-2 py-1 rounded-sm">
                       <i class="pi pi-clock me-1"></i>{{ trait.restants }}
                     </span>
                   </div>
@@ -135,7 +138,7 @@
               </div>
 
               <div class="border-top pt-3 d-flex justify-content-end">
-                <button @click="handleConsultAllTreatments" 
+                <button @click="handleConsultAllTreatments"
                   class="btn btn-link text-primary text-xs p-0 decoration-none fw-semibold d-flex align-items-center gap-1">
                   Consulter la liste complète <i class="pi pi-arrow-right text-xxs"></i>
                 </button>
@@ -143,8 +146,9 @@
             </div>
 
             <div v-else>
-              <MedEmptyState icon="pi pi-exclamation-circle" size="sm" title="Aucun traitement" 
-                description="Aucune médication active n'est enregistrée dans votre carnet pour le moment. Vous êtes en parfaite santé !" :bordered="true" />
+              <MedEmptyState icon="pi pi-exclamation-circle" size="sm" title="Aucun traitement"
+                description="Aucune médication active n'est enregistrée dans votre carnet pour le moment. Vous êtes en parfaite santé !"
+                :bordered="true" />
             </div>
           </div>
 
@@ -153,7 +157,8 @@
               <h5 class="mb-1 text-dark fw-bold text-title text-md">
                 <i class="pi pi-history text-primary me-2"></i>Parcours Chronologique & Événements
               </h5>
-              <p class="text-xs text-muted mb-0">Historique complet de vos interactions médicales. Cliquez sur un événement pour ouvrir les détails.</p>
+              <p class="text-xs text-muted mb-0">Historique complet de vos interactions médicales. Cliquez sur un
+                événement pour ouvrir les détails.</p>
             </div>
 
             <div v-if="isLoading">
@@ -162,34 +167,42 @@
 
             <div v-else-if="timelineData && timelineData.length">
               <MedTimeline :events="timelineData">
-                <template #default="{ event }">
-                  <div class="p-3 border rounded shadow-xs bg-white cursor-pointer hover-shadow transition-base mb-3 position-relative"
-                    @click="handleOpenEventModal(event)">
-                    <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
-                      <span class="badge bg-primary-subtle text-primary text-xxs px-2 py-0-5 rounded-pill">
-                        {{ event.type || 'Événement' }}
+                <template #content="{ item: event }">
+                  <div class="p-2 cursor-pointer font-sans" @click="handleOpenEventModal(event)">
+
+                    <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                      <span
+                        class="badge bg-primary-subtle text-primary text-xxs px-2 py-1 rounded-pill fw-semibold text-uppercase">
+                        {{ event.type || 'Consultation' }}
                       </span>
-                      <span class="text-xxs font-monospace text-muted">{{ event.date }}</span>
+                      <span class="text-xxs font-monospace text-muted fw-medium">
+                        {{ event.date ?? '--' }}
+                      </span>
                     </div>
-                    <h6 class="text-xs fw-bold text-dark mb-1">
-                      {{ event.responsable?.nom || 'Responsable non spécifié' }}
+
+                    <h6 class="text-sm fw-bold text-dark mb-1">
+                      {{ event.responsable?.nom || 'Médecin non spécifié' }}
                     </h6>
-                    <p class="text-xxs text-muted mb-2">
-                      <i class="pi pi-building me-1 text-secondary"></i>{{ event.structure }}
-                    </p>
-                    <p class="text-xs text-secondary text-truncate-2 mb-0 fst-italic">
+
+                    <div class="text-xxs text-muted mb-2 d-flex align-items-center gap-1">
+                      <i class="pi pi-building text-secondary text-xxs"></i>
+                      <span>{{ event.structure }}</span>
+                    </div>
+
+                    <p class="text-xs text-secondary mb-0 lh-base fst-italic text-truncate-2">
                       {{ event.resume }}
                     </p>
+
                     <div class="text-end text-xxs text-primary mt-2 fw-semibold">
-                      <i class="pi pi-search me-1"></i>Voir le résumé complet
+                      <i class="pi pi-search text-xxs me-1"></i>Voir le résumé complet
                     </div>
+
                   </div>
                 </template>
               </MedTimeline>
             </div>
-
             <div v-else>
-              <MedEmptyState icon="pi pi-calendar-minus" size="sm" title="Fil chronologique vide" 
+              <MedEmptyState icon="pi pi-calendar-minus" size="sm" title="Fil chronologique vide"
                 description="Aucun événement n'est présent dans votre historique de santé." :bordered="true" />
             </div>
           </div>
@@ -197,7 +210,7 @@
         </div>
 
         <div class="col-12 col-lg-4">
-          
+
           <div class="card border-0 shadow-sm p-4 mb-4 bg-white rounded-lg">
             <h5 class="mb-3 text-dark fw-bold text-title text-md">
               <i class="pi pi-calendar text-primary me-2"></i>Prochains Rendez-vous
@@ -214,10 +227,10 @@
             </div>
 
             <div v-else-if="appointments && appointments.length" class="med-appointment-timeline ps-2">
-              <div v-for="rdv in appointments" :key="rdv.id" 
+              <div v-for="rdv in appointments" :key="rdv.id"
                 class="d-flex gap-3 mb-3 position-relative med-timeline-item cursor-pointer rdv-interactive-card"
                 @click="handleRedirectToAppointment(rdv.redirect_id)">
-                
+
                 <div class="bg-light rounded text-center d-flex flex-column justify-content-center border shadow-xs"
                   style="width: 52px; height: 54px; min-width: 52px">
                   <span class="fs-5 fw-bold font-monospace text-dark lh-1">
@@ -251,7 +264,7 @@
             </div>
 
             <div v-else>
-              <MedEmptyState icon="pi pi-calendar" size="sm" title="Aucun rendez-vous" 
+              <MedEmptyState icon="pi pi-calendar" size="sm" title="Aucun rendez-vous"
                 description="Vous n'avez aucun rendez-vous planifié à venir." :bordered="false" />
             </div>
           </div>
@@ -266,12 +279,12 @@
             </div>
 
             <div v-else-if="preventionArticles && preventionArticles.length">
-              <div v-for="(article, idx) in preventionArticles" :key="idx" 
+              <div v-for="(article, idx) in preventionArticles" :key="idx"
                 class="card border-light shadow-xs bg-white mb-3 rounded overflow-hidden hover-shadow transition-base">
-                
-                <img v-if="article.image" :src="article.image" class="img-fluid w-100 object-fit-cover" 
+
+                <img v-if="article.image" :src="article.image" class="img-fluid w-100 object-fit-cover"
                   style="max-height: 130px;" alt="Bannière prévention" />
-                
+
                 <div class="p-3">
                   <span class="badge bg-info-subtle text-info text-xxs mb-2 border border-info-subtle rounded-sm">
                     {{ article.type || 'Prévention' }}
@@ -279,9 +292,9 @@
                   <p class="text-xs text-dark lh-base mb-3 text-truncate-3">
                     {{ article.contenu }}
                   </p>
-                  
+
                   <div v-if="article.redirect_id" class="text-start border-top pt-2">
-                    <button @click="handleRedirectToAnnonce(article.redirect_id)" 
+                    <button @click="handleRedirectToAnnonce(article.redirect_id)"
                       class="btn btn-link text-primary text-xs p-0 decoration-none fw-semibold">
                       Lire l'article au complet <i class="pi pi-arrow-right ms-1 text-xxs"></i>
                     </button>
@@ -308,10 +321,10 @@
 
     <MedModal v-model="isModalOpen" title="Fiche Détail de l'Événement" size="md" centered>
       <div v-if="selectedEvent" class="p-1">
-        
+
         <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom">
-          <img :src="selectedEvent.responsable?.photo || '/assets/images/default-avatar.png'" 
-            class="rounded-circle border border-2 border-light shadow-xs object-fit-cover" 
+          <img :src="selectedEvent.responsable?.photo || '/assets/images/default-avatar.png'"
+            class="rounded-circle border border-2 border-light shadow-xs object-fit-cover"
             style="width: 52px; height: 52px;" alt="Praticien" />
           <div>
             <h6 class="fw-bold text-dark mb-0">{{ selectedEvent.responsable?.nom }}</h6>
@@ -333,8 +346,10 @@
 
         <div>
           <div class="text-xxs text-muted fw-bold text-uppercase mb-1 tracking-wider">Résumé & Conclusions</div>
-          <div class="p-3 bg-light rounded text-xs text-dark lh-relaxed whitespace-pre-wrap border border-light-subtle shadow-xs font-sans">
-            {{ selectedEvent.resume || 'Aucune observation textuelle détaillée n\'est rattachée à cet enregistrement.' }}
+          <div
+            class="p-3 bg-light rounded text-xs text-dark lh-relaxed whitespace-pre-wrap border border-light-subtle shadow-xs font-sans">
+            {{ selectedEvent.resume || 'Aucune observation textuelle détaillée n\'est rattachée à cet enregistrement.'
+            }}
           </div>
         </div>
 
@@ -345,246 +360,252 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { CarnetService } from "@/api/endpoints/services/patient/carnet";
-import MedTimeline from "@/components/services/MedTimeline.vue";
-import MedModal from "@/components/common/MedModal.vue";
-import MedEmptyState from "@/components/common/MedEmptyState.vue";
-import MedSkeleton from "@/components/common/MedSkeleton.vue";
-import { useUiStore } from "@/router/ui";
-import { useToast } from "@/composables/useToast";
-import router from "@/router";
+  import { ref, onMounted } from "vue";
+  import { CarnetService } from "@/api/endpoints/services/patient/carnet";
+  import MedTimeline from "@/components/services/MedTimeline.vue";
+  import MedModal from "@/components/common/MedModal.vue";
+  import MedEmptyState from "@/components/common/MedEmptyState.vue";
+  import MedSkeleton from "@/components/common/MedSkeleton.vue";
+  import { useUiStore } from "@/router/ui";
+  import { useToast } from "@/composables/useToast";
+  import router from "@/router";
 
-// --- ÉTATS REACTIFS ---
-const ui = useUiStore();
-const isLoading = ref(true);
-const toast = useToast();
+  // --- ÉTATS REACTIFS ---
+  const ui = useUiStore();
+  const isLoading = ref(true);
+  const toast = useToast();
 
-const profile = ref(null);
-const indications = ref({});
-const appointments = ref([]);
-const preventionArticles = ref([]);
-const timelineData = ref([]);
-const traitements = ref([]);
+  const profile = ref(null);
+  const indications = ref({});
+  const appointments = ref([]);
+  const preventionArticles = ref([]);
+  const timelineData = ref([]);
+  const traitements = ref([]);
 
-// Éléments de la Modale d'historique (Exigence 5)
-const isModalOpen = ref(false);
-const selectedEvent = ref(null);
+  // Éléments de la Modale d'historique (Exigence 5)
+  const isModalOpen = ref(false);
+  const selectedEvent = ref(null);
 
 
-// --- ACQUISITION DES DONNÉES VIA CARNETSERVICE ---
-const fetchCarnetDashboard = async () => {
-  isLoading.value = true;
+  // --- ACQUISITION DES DONNÉES VIA CARNETSERVICE ---
+  const fetchCarnetDashboard = async () => {
+    isLoading.value = true;
 
-  try {
-    const [profilRes, indicationsRes, alertesRes, timelineRes, traitementsRes] = await Promise.all([
-      CarnetService.profil(),
-      CarnetService.indications(),
-      CarnetService.alertes(),
-      CarnetService.timeline(),
-      CarnetService.traitements()
-    ]);
+    try {
+      const [profilRes, indicationsRes, alertesRes, timelineRes, traitementsRes] = await Promise.all([
+        CarnetService.profil(),
+        CarnetService.indications(),
+        CarnetService.alertes(),
+        CarnetService.timeline(),
+        CarnetService.traitements()
+      ]);
 
-    if (profilRes) profile.value = profilRes;
-    if (indicationsRes) indications.value = indicationsRes;
-    
-    if (alertesRes) {
-      appointments.value = alertesRes.rendez_vous || [];
-      preventionArticles.value = alertesRes.prevention || [];
+      if (profilRes) profile.value = profilRes;
+      if (indicationsRes) indications.value = indicationsRes;
+
+      if (alertesRes) {
+        appointments.value = alertesRes.rendez_vous || [];
+        preventionArticles.value = alertesRes.prevention || [];
+      }
+
+      if (timelineRes) timelineData.value = timelineRes;
+      if (traitementsRes) traitements.value = traitementsRes;
+
+    } catch (error) {
+      console.error("Échec du chargement du carnet de santé :", error);
+      toast.warning(error.message)
+    } finally {
+      isLoading.value = false;
     }
-    
-    if (timelineRes) timelineData.value = timelineRes;
-    if (traitementsRes) traitements.value = traitementsRes;
+  };
 
-  } catch (error) {
-    console.error("Échec du chargement du carnet de santé :", error);
-    toast.warning(error.message)
-  } finally {
-    isLoading.value = false;
-  }
-};
+  // --- FONCTIONS DE REDIRECTION CENTRALISÉES (Exigence 7) ---
 
-// --- FONCTIONS DE REDIRECTION CENTRALISÉES (Exigence 7) ---
+  // Redirection vers le détail d'un rendez-vous (Exigence 3)
+  const handleRedirectToAppointment = (redirectId) => {
+    if (!redirectId) return;
+    router.push({
+      name: "patient-rendezvous-details",
+      params: { id: redirectId }
+    });
+  };
 
-// Redirection vers le détail d'un rendez-vous (Exigence 3)
-const handleRedirectToAppointment = (redirectId) => {
-  if (!redirectId) return;
-  router.push({
-    name: "patient-rendezvous-details",
-    params: { id: redirectId }
+  // Redirection vers le détail d'une annonce / article de prévention (Exigence 4)
+  const handleRedirectToAnnonce = (redirectId) => {
+    if (!redirectId) return;
+    router.push({
+      name: "patient-annonce-details",
+      params: { id: redirectId }
+    });
+  };
+
+  // Redirection vers la liste complète des médicaments (Exigence 6)
+  const handleConsultAllTreatments = () => {
+    router.push({
+      name: "patient-traitements-liste"
+    });
+  };
+
+  // --- GESTIONNAIRES INTERACTIFS LOCALISÉS ---
+  const handleOpenEventModal = (event) => {
+    selectedEvent.value = event;
+    isModalOpen.value = true;
+  };
+
+  // Cycle de vie initialisation
+  onMounted(() => {
+    fetchCarnetDashboard();
   });
-};
-
-// Redirection vers le détail d'une annonce / article de prévention (Exigence 4)
-const handleRedirectToAnnonce = (redirectId) => {
-  if (!redirectId) return;
-  router.push({
-    name: "patient-annonce-details",
-    params: { id: redirectId }
-  });
-};
-
-// Redirection vers la liste complète des médicaments (Exigence 6)
-const handleConsultAllTreatments = () => {
-  router.push({
-    name: "patient-traitements-liste"
-  });
-};
-
-// --- GESTIONNAIRES INTERACTIFS LOCALISÉS ---
-const handleOpenEventModal = (event) => {
-  selectedEvent.value = event;
-  isModalOpen.value = true;
-};
-
-// Cycle de vie initialisation
-onMounted(() => {
-  fetchCarnetDashboard();
-});
 </script>
 
 <style scoped>
-.page-patient-carnet {
-  background-color: var(--medical-gray-50, #f8fafc);
-  min-height: 100vh;
-}
-
-/* Cartes interactives des rendez-vous */
-.rdv-interactive-card {
-  transition: background-color 0.2s ease, transform 0.2s ease;
-  border-radius: 8px;
-  padding: 8px;
-}
-
-.rdv-interactive-card:hover {
-  background-color: #f1f5f9;
-  transform: translateX(3px);
-}
-
-/* Affichage fluide du helper au survol */
-.click-helper-text {
-  font-size: 0.68rem !important;
-  color: var(--medical-primary, #0284c7) !important;
-  opacity: 0.75;
-  transition: opacity 0.2s ease;
-}
-
-.rdv-interactive-card:hover .click-helper-text {
-  opacity: 1;
-  font-weight: 600;
-}
-
-/* Animations de survol pour la timeline et articles */
-.hover-shadow {
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
-}
-
-.hover-shadow:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
-}
-
-/* Ligne chronologique pour l'affichage latéral des RDV */
-.med-appointment-timeline {
-  border-left: 2px dashed var(--medical-gray-200, #e2e8f0);
-}
-
-.med-timeline-item::before {
-  content: "";
-  position: absolute;
-  left: -13px;
-  top: 23px;
-  width: 8px;
-  height: 8px;
-  background-color: var(--medical-primary, #0284c7);
-  border-radius: 50%;
-}
-
-/* Utilitaires de contraintes & Arrière-plans */
-.bg-primary-bg {
-  background-color: var(--medical-primary-bg, #f0f9ff) !important;
-}
-
-.text-primary-dark {
-  color: var(--medical-primary-dark, #0369a1) !important;
-}
-
-.text-truncate-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.text-truncate-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.whitespace-pre-wrap {
-  white-space: pre-wrap;
-}
-
-/* Micro typographie */
-.text-xxs {
-  font-size: 0.72rem !important;
-}
-
-.text-xs {
-  font-size: 0.82rem !important;
-}
-
-.text-sm {
-  font-size: 0.9rem !important;
-}
-
-.text-base {
-  font-size: 1rem !important;
-}
-
-.text-md {
-  font-size: 1.15rem !important;
-}
-
-.py-0-5 {
-  padding-top: 0.15rem !important;
-  padding-bottom: 0.15rem !important;
-}
-
-.shadow-xs {
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
-}
-
-.rounded-lg {
-  border-radius: 0.5rem !important;
-}
-
-.fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
-}
-
-
-@keyframes slideIn {
-  from {
-    transform: translateX(110%);
-    opacity: 0;
+  .page-patient-carnet {
+    background-color: var(--medical-gray-50, #f8fafc);
+    min-height: 100vh;
   }
-  to {
-    transform: translateX(0);
+
+  /* Cartes interactives des rendez-vous */
+  .rdv-interactive-card {
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    border-radius: 8px;
+    padding: 8px;
+  }
+
+  .rdv-interactive-card:hover {
+    background-color: #f1f5f9;
+    transform: translateX(3px);
+  }
+
+  /* Affichage fluide du helper au survol */
+  .click-helper-text {
+    font-size: 0.68rem !important;
+    color: var(--medical-primary, #0284c7) !important;
+    opacity: 0.75;
+    transition: opacity 0.2s ease;
+  }
+
+  .rdv-interactive-card:hover .click-helper-text {
     opacity: 1;
+    font-weight: 600;
   }
-}
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
+  /* Animations de survol pour la timeline et articles */
+  .hover-shadow {
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .hover-shadow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
   }
+
+  /* Ligne chronologique pour l'affichage latéral des RDV */
+  .med-appointment-timeline {
+    border-left: 2px dashed var(--medical-gray-200, #e2e8f0);
+  }
+
+  .med-timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -13px;
+    top: 23px;
+    width: 8px;
+    height: 8px;
+    background-color: var(--medical-primary, #0284c7);
+    border-radius: 50%;
+  }
+
+  /* Utilitaires de contraintes & Arrière-plans */
+  .bg-primary-bg {
+    background-color: var(--medical-primary-bg, #f0f9ff) !important;
+  }
+
+  .text-primary-dark {
+    color: var(--medical-primary-dark, #0369a1) !important;
+  }
+
+  .text-truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .text-truncate-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .whitespace-pre-wrap {
+    white-space: pre-wrap;
+  }
+
+  /* Micro typographie */
+  .text-xxs {
+    font-size: 0.72rem !important;
+  }
+
+  .text-xs {
+    font-size: 0.82rem !important;
+  }
+
+  .text-sm {
+    font-size: 0.9rem !important;
+  }
+
+  .text-base {
+    font-size: 1rem !important;
+  }
+
+  .text-md {
+    font-size: 1.15rem !important;
+  }
+
+  .py-0-5 {
+    padding-top: 0.15rem !important;
+    padding-bottom: 0.15rem !important;
+  }
+
+  .shadow-xs {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .rounded-lg {
+    border-radius: 0.5rem !important;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(110%);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  :deep(.med-timeline__marker-wrap::before) {
+  width: 5px;
 }
 </style>
