@@ -118,7 +118,7 @@ defineProps({
   top: 2.75rem;
   bottom: -2.5rem;
   left: 50%;
-  width: 2px;
+  width: 4px;
   transform: translateX(-50%);
   background-color: var(--medical-gray-200);
 }
