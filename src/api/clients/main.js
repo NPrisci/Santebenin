@@ -64,6 +64,7 @@ export const api = ofetch.create({
 
       // GESTION DU 401 (Non authentifié)
       if (status === 401) {
+         console.log('test login')
          // Optionnel : Vérifier si on est déjà sur la page login pour éviter une boucle
          const currentRoute = router.currentRoute.value.name;
          if (currentRoute !== 'login') {
