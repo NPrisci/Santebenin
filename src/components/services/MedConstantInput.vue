@@ -467,11 +467,11 @@ const formatValue = computed(() => {
             :min="config.min.sys"
             :max="config.max.sys"
             :step="config.step"
-            :value="internalValue?.systolic || 0"
+            :value="internalValue?.systolique || 0"
             @input="handleSystolicChange"
             class="slider-input"
           />
-          <span class="value-display">{{ internalValue?.systolic }} mmHg</span>
+          <span class="value-display">{{ internalValue?.systolique }} mmHg</span>
         </div>
         <div class="slider-group">
           <label>Diastolique</label>
@@ -480,11 +480,11 @@ const formatValue = computed(() => {
             :min="config.min.dia"
             :max="config.max.dia"
             :step="config.step"
-            :value="internalValue?.diastolic || 0"
+            :value="internalValue?.diastolique || 0"
             @input="handleDiastolicChange"
             class="slider-input"
           />
-          <span class="value-display">{{ internalValue?.diastolic }} mmHg</span>
+          <span class="value-display">{{ internalValue?.diastolique }} mmHg</span>
         </div>
       </div>
     </div>
