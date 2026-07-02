@@ -44,13 +44,12 @@
           <div class="col-12 col-md-6 d-flex flex-column justify-content-center">
             <div class="d-flex align-items-center gap-2 mb-2">
               <div
-                class="badge bg-danger text-white rounded-circle fs-4 d-flex align-items-center justify-content-center shadow-sm font-monospace"
-                style="width: 64px; height: 64px; min-width: 52px">
+                class="badge bg-success text-white rounded-circle fs-4 d-flex align-items-center justify-content-center shadow-sm font-monospace"
+                style="width: 52px; height: 52px; min-width: 52px">
                 {{ profile?.groupe_sanguin || "?" }}
               </div>
               <div class="text-start">
                 <div class="text-xxs text-uppercase tracking-wider text-muted fw-bold">Groupe Sanguin</div>
-                <div class="text-xs text-dark fw-semibold">Information critique</div>
               </div>
             </div>
             <div class="text-xs text-muted text-md-end">
@@ -200,6 +199,13 @@
                   </div>
                 </template>
               </MedTimeline>
+
+              <div class="border-top pt-3 mt-3 d-flex justify-content-end">
+                <button @click="handleViewFullTimeline"
+                  class="btn btn-link text-primary text-xs p-0 decoration-none fw-semibold d-flex align-items-center gap-1">
+                  Voir mon parcours complet <i class="pi pi-arrow-right text-xxs"></i>
+                </button>
+              </div>
             </div>
             <div v-else>
               <MedEmptyState icon="pi pi-calendar-minus" size="sm" title="Fil chronologique vide"
@@ -210,7 +216,54 @@
         </div>
 
         <div class="col-12 col-lg-4">
+          <div class="card border-0 shadow-sm p-4 mb-4 bg-white rounded-lg">
+            <h5 class="mb-3 text-dark fw-bold text-title text-md">
+              <i class="pi pi-exclamation-triangle text-danger me-2"></i>Antécédents & Facteurs de Risque
+            </h5>
 
+            <div v-if="isLoading" class="d-flex flex-column gap-2">
+              <MedSkeleton type="rect" height="40px" v-for="i in 3" :key="i" class="rounded" />
+            </div>
+
+            <div
+              v-else-if="antecedents.allergies.length || antecedents.maladies.length || antecedents.medicaments.length">
+
+              <!-- Section Allergies -->
+              <div v-if="antecedents.allergies.length" class="mb-3">
+                <div class="text-xxs text-uppercase tracking-wider text-muted fw-bold mb-2">Allergies</div>
+                <div v-for="all in antecedents.allergies" :key="all.id"
+                  class="p-2 rounded bg-danger-subtle text-danger-emphasis border border-danger-subtle mb-1 text-xs">
+                  <i class="pi pi-ban me-1 text-xxs"></i> {{ all.note }}
+                </div>
+              </div>
+
+              <!-- Section Maladies Chroniques -->
+              <div v-if="antecedents.maladies.length" class="mb-3">
+                <div class="text-xxs text-uppercase tracking-wider text-muted fw-bold mb-2">Affections Chroniques</div>
+                <div v-for="mal in antecedents.maladies" :key="mal.id"
+                  class="p-2 rounded bg-warning-subtle text-warning-emphasis border border-warning-subtle mb-1 text-xs">
+                  <i class="pi pi-heart me-1 text-xxs"></i> {{ mal.note }}
+                </div>
+              </div>
+
+              <!-- Section Médicaments à risque -->
+              <div v-if="antecedents.medicaments.length">
+                <div class="text-xxs text-uppercase tracking-wider text-muted fw-bold mb-2">Vigilance Médicamenteuse
+                </div>
+                <div v-for="med in antecedents.medicaments" :key="med.id"
+                  class="p-2 rounded bg-info-subtle text-info-emphasis border border-info-subtle mb-1 text-xs">
+                  <i class="pi pi-info-circle me-1 text-xxs"></i> {{ med.note }}
+                </div>
+              </div>
+
+            </div>
+
+            <div v-else>
+              <div class="p-3 bg-light rounded text-center text-xs text-muted">
+                Aucun antécédent médical à risque déclaré.
+              </div>
+            </div>
+          </div>
           <div class="card border-0 shadow-sm p-4 mb-4 bg-white rounded-lg">
             <h5 class="mb-3 text-dark fw-bold text-title text-md">
               <i class="pi pi-calendar text-primary me-2"></i>Prochains Rendez-vous
@@ -381,6 +434,7 @@
   const preventionArticles = ref([]);
   const timelineData = ref([]);
   const traitements = ref([]);
+  const antecedents = ref({ allergies: [], maladies: [], medicaments: [], environnement: [], autres: [] }); // <-- AJOUT
 
   // Éléments de la Modale d'historique (Exigence 5)
   const isModalOpen = ref(false);
@@ -406,6 +460,7 @@
       if (alertesRes) {
         appointments.value = alertesRes.rendez_vous || [];
         preventionArticles.value = alertesRes.prevention || [];
+        antecedents.value = alertesRes.antecedents || { allergies: [], maladies: [], medicaments: [], environnement: [], autres: [] };
       }
 
       if (timelineRes) timelineData.value = timelineRes;
@@ -443,6 +498,13 @@
   const handleConsultAllTreatments = () => {
     router.push({
       name: "patient-traitements-liste"
+    });
+  };
+
+  // Redirection vers le parcours chronologique complet <-- AJOUT
+  const handleViewFullTimeline = () => {
+    router.push({
+      name: "patient-timeline-complete"
     });
   };
 

@@ -16,7 +16,8 @@ export const CarnetService = {
         const response = await api('/patient/carnet/alertes');
         return {
             rendez_vous: FormatCarnet.rendez_vous(response.rendez_vous),
-            prevention: FormatCarnet.prevention(response.prevention)
+            prevention: FormatCarnet.prevention(response.prevention),
+            antecedents: FormatCarnet.antecedants(response.antecedants)
         }
     },
 
@@ -207,6 +208,48 @@ const FormatCarnet = {
         })
     },
 
+    antecedants(data) {
+        if (!data) return { allergies: [], maladies: [], medicaments: [], environnement: [], autres: [] };
+
+        // Fonction utilitaire interne pour centraliser la logique de formatage de chaque ligne
+        const formaterItem = (item) => {
+            const nom = item.designation || 'Non spécifié';
+            const dateFormatee = item.date_debut ? formatDate(item.date_debut) : null;
+            
+            // Initialisation de la note descriptive selon le type
+            let noteGeneree = '';
+            if (item.type === 'maladie') {
+                noteGeneree = dateFormatee ? `Souffre de ${nom} depuis le ${dateFormatee}` : `Souffre de ${nom}`;
+            } else if (item.type === 'allergie') {
+                noteGeneree = `Allergie à : ${nom}`;
+            } else if (item.type === 'medicament') {
+                const generique = item.medicament?.nom_generique ? ` (${item.medicament.nom_generique})` : '';
+                noteGeneree = `Médicament à risque : ${nom}${generique}`;
+            } else {
+                noteGeneree = `${nom}`;
+            }
+
+            // Si l'API fournit un commentaire ou une note spécifique ("Saisie libre"), on l'ajoute
+            if (item.notes) {
+                noteGeneree += ` (${item.notes})`;
+            }
+
+            return {
+                id: item.antecedant_id,
+                nom: nom,
+                type: item.type,
+                note: noteGeneree
+            };
+        };
+
+        return {
+            allergies: (data.allergies || []).map(formaterItem),
+            maladies: (data.maladies || []).map(formaterItem),
+            medicaments: (data.medicaments || []).map(formaterItem),
+            environnement: (data.environnement || []).map(formaterItem),
+            autres: (data.autres || []).map(formaterItem)
+        };
+    },
     timeline(data) {
         if (!data) return null;
 
