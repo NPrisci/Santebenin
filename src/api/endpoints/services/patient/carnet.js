@@ -221,7 +221,7 @@ const FormatCarnet = {
             if (item.type === 'maladie') {
                 noteGeneree = dateFormatee ? `Souffre de ${nom} depuis le ${dateFormatee}` : `Souffre de ${nom}`;
             } else if (item.type === 'allergie') {
-                noteGeneree = `Allergie à : ${nom}`;
+                noteGeneree = `Vous êtes allergique à : ${nom}`;
             } else if (item.type === 'medicament') {
                 const generique = item.medicament?.nom_generique ? ` (${item.medicament.nom_generique})` : '';
                 noteGeneree = `Médicament à risque : ${nom}${generique}`;
