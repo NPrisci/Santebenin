@@ -524,33 +524,33 @@
                 <div v-else class="text-xxs text-muted fst-italic ps-1">Aucun protégé rattaché</div>
               </div>
             </template>
-            <!-- ========================================================= -->
-            <!-- SECTION NOUVELLE : BANNIÈRE DE SOUSCRIPTION ROLES PRO     -->
-            <!-- ========================================================= -->
-            <div v-if="!isLoading"
-              class="card border-0 shadow-sm p-4 mb-4 bg-gradient-subscription rounded-lg text-white">
-              <div class="row align-items-center g-3">
-                <div class="col-12 col-md-8">
-                  <div class="d-flex align-items-center gap-2 mb-2">
-                    <span
-                      class="badge bg-white text-primary rounded-pill text-xxs px-2 py-1 fw-bold tracking-wider text-uppercase">
-                      Opportunité BéninSénte
-                    </span>
-                  </div>
-                  <h5 class="fw-bold mb-1 text-white">Devenez un Acteur clé de notre réseau de santé</h5>
-                  <p class="text-xs mb-0 text-white-50 lh-base">
-                    Vous êtes professionnel de santé, pharmacien ou gestionnaire d'établissement ? Explorez notre
-                    concept,
-                    soumettez votre demande pour certifier votre profil et commencez à proposer vos services sur la
-                    plateforme.
-                  </p>
+          </div>
+          <!-- ========================================================= -->
+          <!-- SECTION NOUVELLE : BANNIÈRE DE SOUSCRIPTION ROLES PRO     -->
+          <!-- ========================================================= -->
+          <div v-if="!isLoading"
+            class="card border-0 shadow-sm p-4 mb-4 bg-gradient-subscription rounded-lg text-white">
+            <div class="row align-items-center g-3">
+              <div class="col-12 col-md-8">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span
+                    class="badge bg-white text-primary rounded-pill text-xxs px-2 py-1 fw-bold tracking-wider text-uppercase">
+                    Opportunité BéninSénte
+                  </span>
                 </div>
-                <div class="col-12 col-md-4 d-flex justify-content-md-end align-items-center">
-                  <button @click="router.push({ name: 'patient-subscription-landing' })"
-                    class="btn btn-white text-primary fw-bold text-xs px-4 py-2.5 rounded shadow-sm d-inline-flex align-items-center gap-2 transition-base">
-                    Rejoindre le réseau <i class="pi pi-arrow-right text-xxs"></i>
-                  </button>
-                </div>
+                <h5 class="fw-bold mb-1 text-white">Devenez un Acteur clé de notre réseau de santé</h5>
+                <p class="text-xs mb-0 text-white-50 lh-base">
+                  Vous êtes professionnel de santé, pharmacien ou gestionnaire d'établissement ? Explorez notre
+                  concept,
+                  soumettez votre demande pour certifier votre profil et commencez à proposer vos services sur la
+                  plateforme.
+                </p>
+              </div>
+              <div class="col-12 col-md-4 d-flex justify-content-md-end align-items-center">
+                <button @click="router.push({ name: 'patient-subscription-landing' })"
+                  class="btn btn-white text-primary fw-bold text-xs px-4 py-2.5 rounded shadow-sm d-inline-flex align-items-center gap-2 transition-base">
+                  Rejoindre le réseau <i class="pi pi-arrow-right text-xxs"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -888,5 +888,29 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  /* Thémantisation de la bannière de souscription */
+  .bg-gradient-subscription {
+    background: linear-gradient(135deg, var(--medical-primary, #0284c7) 0%, #0369a1 100%) !important;
+  }
+
+  .btn-white {
+    background-color: #ffffff !important;
+    color: var(--medical-primary, #0284c7) !important;
+    border: 1px solid #ffffff !important;
+  }
+
+  .btn-white:hover {
+    background-color: #f8fafc !important;
+    transform: translateY(-1px);
+  }
+
+  .text-white-50 {
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  .transition-base {
+    transition: all 0.2s ease-in-out;
   }
 </style>
