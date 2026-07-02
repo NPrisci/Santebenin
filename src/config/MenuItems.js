@@ -41,22 +41,22 @@ export const menuItems = [
    {
       name: 'Mon carnet de santé',
       icon: 'fas fa-notes-medical',
-      path: '/patient/health-record'
+      path: '/p/carnet'
    },
    {
       name: 'Mes documents',
       icon: 'fas fa-folder-open',
-      path: '/patient/documents'
+      path: '/p/documents'
    },
    {
       name: 'Pharmacie',
       icon: 'fas fa-clinic-medical',
-      path: '/patient/pharmacy'
+      path: '/p/pharmacie'
    },
    {
       name: 'Paramètres',
       icon: 'fas fa-cog',
-      path: '/patient/settings'
+      path: '/p/settings'
    }
 ]
 

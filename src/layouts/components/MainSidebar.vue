@@ -74,7 +74,7 @@ onUnmounted(() => {
         <router-link
           v-for="item in menuItems"
           :key="'desktop-' + item.name"
-          :to="'#'" 
+          :to="item.path" 
           class="template-nav-circle d-flex align-items-center justify-content-center position-relative text-decoration-none"
           :class="{ 'active': isActive(item.path) }"
           :data-indicator="item.name"
