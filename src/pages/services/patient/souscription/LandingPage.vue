@@ -30,7 +30,7 @@
               :class="selectedDomainId === option.id ? 'border-primary bg-primary-subtle-light' : 'border-light bg-white'">
               <div class="d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center gap-3">
-                  <div class="badge rounded-circle p-2.5 fs-5 d-inline-flex align-items-center justify-content-center"
+                  <div class="badge rounded-circle p-2 fs-5 d-inline-flex align-items-center justify-content-center"
                     :class="selectedDomainId === option.id ? 'bg-primary text-white' : 'bg-light text-secondary'">
                     <i :class="option.icon"></i>
                   </div>
@@ -218,10 +218,6 @@
 
   .shadow-xs {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
-  }
-
-  .p-2.5 {
-    padding: 0.65rem !important;
   }
 
   .transition-base {

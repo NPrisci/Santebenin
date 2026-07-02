@@ -94,7 +94,7 @@ const shortUsername = computed(() => {
       <div class="d-flex align-items-center gap-2 header-actions-wrapper">
         <button
           @click="toggleNotificationDrawer"
-          class="btn position-relative p-2.5 rounded-circle border-0 action-circle-btn me-1"
+          class="btn position-relative p-2 rounded-circle border-0 action-circle-btn me-1"
           type="button"
           title="Notifications d'analyses"
         >
@@ -109,7 +109,7 @@ const shortUsername = computed(() => {
 
         <button
           @click="toggleRightPanel"
-          class="btn p-2.5 rounded-circle border-0 action-circle-btn text-header-interactive"
+          class="btn p-2 rounded-circle border-0 action-circle-btn text-header-interactive"
           :class="{ 'tools-active': isRightPanelOpen }"
           type="button"
           title="Boîte à outils de configuration"

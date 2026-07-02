@@ -461,7 +461,7 @@
               displayMaladies.length }})</h6>
             <div v-if="displayMaladies.length > 0" class="d-flex flex-column gap-2">
               <div v-for="item in displayMaladies" :key="item.designation"
-                class="bg-white p-2.5 rounded border shadow-xs">
+                class="bg-white p-2 rounded border shadow-xs">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                   <span class="fs-7 text-dark fw-bold"><i class="fas fa-heartbeat text-danger me-2"></i>{{
                     item.designation }}</span>
@@ -523,7 +523,7 @@
           </div>
 
           <div class="card border-success-subtle bg-success-subtle p-3 rounded-3 mb-3">
-            <div class="d-flex gap-2.5 text-success fs-8">
+            <div class="d-flex gap-2 text-success fs-8">
               <i class="fas fa-user-shield fs-4 mt-1"></i>
               <div>
                 <h6 class="fw-bold mb-0.5 font-title">Déclaration de conformité numérique</h6>

@@ -203,7 +203,7 @@ const removeFile = (index) => {
       <div 
         v-for="(file, idx) in uploadedFiles" 
         :key="file.name + '-' + file.size"
-        class="med-file-item border rounded p-2.5 d-flex align-items-center justify-content-between bg-white shadow-xs"
+        class="med-file-item border rounded p-2 d-flex align-items-center justify-content-between bg-white shadow-xs"
       >
         <div class="d-flex align-items-center gap-3 overflow-hidden me-2">
           <div class="med-file-icon-box rounded d-flex align-items-center justify-content-center bg-light flex-shrink-0">
