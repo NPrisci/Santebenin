@@ -117,7 +117,7 @@ onUnmounted(() => {
         <router-link
           v-for="item in visibleMobileItems"
           :key="'mobile-' + item.name"
-          :to="'#'"
+          :to="item.path"
           class="mobile-tab-btn d-flex flex-column align-items-center justify-content-center text-decoration-none"
           :class="{ 'active': isActive(item.path) }"
         >
