@@ -70,3 +70,18 @@ export function setNpiForReset(npi){
 export function getNpiForReset(){
    return localStorage.getItem('npi_for_reset')
 }
+
+export function isMedecin(){
+   const used = getUsedRole()
+   if (used) return used === 'MEDECIN'
+
+   // Sinon vérifier la liste des rôles de l'utilisateur
+   const roles = getUserRole()
+   if (!roles) return false
+
+   if (Array.isArray(roles)) {
+      return roles.includes('MEDECIN')
+   }
+
+   return roles === 'MEDECIN'
+}

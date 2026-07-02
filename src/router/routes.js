@@ -79,6 +79,11 @@ export const routes = [
         name: "patient-carnet",
         component: () => import("@/pages/services/patient/CarnetPage.vue"),
       },
+      {
+        path: "souscription",
+        name: "patient-subscription-landing",
+        component: () => import("@/pages/services/patient/souscription/LandingPage.vue"),
+      },
     ],
   },
 
