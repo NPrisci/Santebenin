@@ -1,0 +1,175 @@
+/* src/assets/css/home.css */
+
+/* ============================================================
+   1. IMPORTS POLICES
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Momo+Trust+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* ============================================================
+   2. VARIABLES COULEURS
+   ============================================================ */
+:root {
+  /* ===== COULEURS PRINCIPALES ===== */
+  --primary-blue: #0CCDFE;
+  --primary-green: #25D7B0;
+  --white: #FFFFFF;
+  --dark-navy: #0F172A;
+  --light-bg: #DCDCDC;
+
+  /* ===== COULEURS TEXTE ===== */
+  --text-dark: #1A1A2E;
+  --text-gray: #64748B;
+  --text-light-gray: #94a3b8;
+  --text-muted: #475569;
+  --text-slate-800: #1e293b;
+  --text-slate-600: #475569;
+  --text-slate-500: #64748b;
+  --text-white-80: rgba(255, 255, 255, 0.8);
+  --text-white-70: rgba(255, 255, 255, 0.7);
+
+  /* ===== COULEURS DE FOND ===== */
+  --bg-light: #F8F9FA;
+  --bg-white: #FFFFFF;
+  --bg-dark-green: #0F172A;
+  --bg-dark-green-light: #0a1a2e;
+
+  /* ===== COULEURS SPÉCIFIQUES SHOWCASE ===== */
+  --showcase-blue: #00b4d8;
+  --showcase-blue-dark: #0077b6;
+  --showcase-green: #25D7B0;
+  --showcase-blue-light: #eff6ff;
+  --showcase-indigo-light: #eef2ff;
+  --showcase-blue-border: #bfdbfe;
+  --showcase-blue-400: #60a5fa;
+  --showcase-blue-600: #2563eb;
+  --showcase-indigo-600: #4f46e5;
+
+  /* ===== COULEURS BLOG ===== */
+  --blog-blue: #00b4d8;
+  --blog-blue-dark: #0077b6;
+  --blog-border: #e2e8f0;
+  --blog-bg-meta: #f1f5f9;
+
+  /* ===== COULEURS FAQ ===== */
+  --faq-border: rgba(12, 205, 254, 0.08);
+  --faq-border-hover: rgba(12, 205, 254, 0.15);
+  --faq-shadow: rgba(12, 205, 254, 0.08);
+  --faq-badge-bg: rgba(255, 255, 255, 0.95);
+  --faq-indicator-bg: rgba(0, 0, 0, 0.4);
+  --faq-indicator-dot: rgba(255, 255, 255, 0.4);
+
+  /* ===== COULEURS TESTIMONIALS ===== */
+  --testimonial-border: rgba(12, 205, 254, 0.08);
+  --testimonial-shadow: rgba(0, 0, 0, 0.04);
+  --testimonial-shadow-hover: rgba(12, 205, 254, 0.10);
+  --testimonial-star-empty: #e2e8f0;
+  --testimonial-star-filled: #fbbf24;
+  --testimonial-bg-overlay: rgba(7, 51, 47, 0.55);
+  --testimonial-bg-gradient: rgba(92, 155, 219, 0.4);
+  --testimonial-nav-border: rgba(255, 255, 255, 0.2);
+  --testimonial-nav-bg: rgba(255, 255, 255, 0.05);
+  --testimonial-dot-bg: rgba(255, 255, 255, 0.2);
+
+  /* ===== OMBRES ===== */
+  --shadow-card: rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: rgba(0, 0, 0, 0.1);
+  --shadow-soft: rgba(0, 0, 0, 0.08);
+  --shadow-medium: rgba(0, 0, 0, 0.12);
+  --shadow-strong: rgba(0, 0, 0, 0.20);
+  --shadow-xl: rgba(0, 0, 0, 0.2);
+  --shadow-blue: rgba(12, 205, 254, 0.4);
+  --shadow-blue-light: rgba(12, 205, 254, 0.30);
+  --shadow-green: rgba(37, 215, 176, 0.4);
+  --shadow-dark: rgba(0, 0, 0, 0.15);
+  --shadow-faq: rgba(0, 0, 0, 0.08);
+  --shadow-testimonial: rgba(12, 205, 254, 0.10);
+
+  /* ===== TRANSITIONS ===== */
+  --transition-default: all 0.3s ease-in-out;
+  --transition-smooth: all 0.3s ease;
+  --transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-spring: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-slide: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-reveal: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-image: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-accordion: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  --transition-faq: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  --transition-card: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+
+  /* ===== BORDURES ===== */
+  --border-radius-pill: 50px;
+  --border-radius-rounded: 999px;
+  --border-radius-card: 16px;
+  --border-radius-item: 16px;
+  --border-radius-mockup: 20px;
+  --border-radius-mobile: 24px;
+  --border-radius-full: 100px;
+  --border-radius-faq: 24px;
+  --border-radius-faq-item: 16px;
+  --border-radius-testimonial: 24px;
+
+  /* ===== TAILLES ===== */
+  --container-max: 1300px;
+}
+
+/* ============================================================
+   3. TYPOGRAPHIE GLOBALE
+   ============================================================ */
+body {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-playfair {
+  font-family: 'Playfair Display', serif !important;
+}
+
+.font-momo {
+  font-family: 'Momo Trust Display', sans-serif !important;
+}
+
+/* ============================================================
+   4. CLASSES UTILITAIRES COULEURS
+   ============================================================ */
+.text-primary-blue { color: var(--primary-blue) !important; }
+.text-primary-green { color: var(--primary-green) !important; }
+.text-white-custom { color: var(--white) !important; }
+.text-dark-custom { color: var(--text-dark) !important; }
+.text-gray-custom { color: var(--text-gray) !important; }
+.text-light-gray { color: var(--text-light-gray) !important; }
+.text-slate-800 { color: var(--text-slate-800) !important; }
+.text-slate-600 { color: var(--text-slate-600) !important; }
+.text-slate-500 { color: var(--text-slate-500) !important; }
+
+.bg-primary-blue { background-color: var(--primary-blue) !important; }
+.bg-primary-green { background-color: var(--primary-green) !important; }
+.bg-dark-navy { background-color: var(--dark-navy) !important; }
+.bg-white-custom { background-color: var(--bg-white) !important; }
+.bg-light-custom { background-color: var(--bg-light) !important; }
+.bg-dark-green { background-color: var(--bg-dark-green) !important; }
+
+/* ============================================================
+   5. SCROLLBAR CACHÉE
+   ============================================================ */
+::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* ============================================================
+   6. PARTICULES CURSEUR
+   ============================================================ */
+.cursor-particle {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 80%;
+  background: radial-gradient(circle, var(--primary-green) 0%, var(--primary-blue) 70%);
+  z-index: 9999;
+  will-change: transform, opacity;
+}
